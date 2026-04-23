@@ -1,13 +1,14 @@
 'use client';
 
 import {useTranslations, useLocale} from 'next-intl';
-import {Link, usePathname} from '@/i18n/routing';
+import {Link, usePathname, useRouter} from '@/i18n/routing';
 
 export default function SupplierLoginPage() {
   const t = useTranslations('SupplierLogin');
   const tCommon = useTranslations('Common');
   const locale = useLocale();
   const pathname = usePathname();
+  const router = useRouter();
 
   return (
     <div className="bg-surface font-body text-on-surface selection:bg-primary-fixed selection:text-on-primary-fixed min-h-screen flex flex-col">
@@ -93,7 +94,13 @@ export default function SupplierLoginPage() {
                 <h2 className="font-headline font-bold text-3xl text-on-surface mb-2">{t('sign_in_title')}</h2>
                 <p className="text-on-surface-variant text-sm font-body">{t('sign_in_desc')}</p>
               </header>
-              <form className="space-y-6">
+              <form 
+                className="space-y-6"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  router.push('/supplier-dashboard');
+                }}
+              >
                 {/* Input Group */}
                 <div className="space-y-1.5">
                   <label className="text-xs font-semibold text-outline uppercase tracking-wider ltr:pl-1 rtl:pr-1" htmlFor="supplier-id">{t('supplier_id_label')}</label>

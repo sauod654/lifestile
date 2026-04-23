@@ -1,13 +1,14 @@
 'use client';
 
 import {useTranslations, useLocale} from 'next-intl';
-import {Link, usePathname} from '@/i18n/routing';
+import {Link, usePathname, useRouter} from '@/i18n/routing';
 
 export default function EmployeeLoginPage() {
   const t = useTranslations('EmployeeLogin');
   const tCommon = useTranslations('Common');
   const locale = useLocale();
   const pathname = usePathname();
+  const router = useRouter();
 
   return (
     <div className="bg-surface font-body text-on-surface overflow-x-hidden transition-all duration-300 min-h-screen flex flex-col">
@@ -104,7 +105,13 @@ export default function EmployeeLoginPage() {
               <p className="body-md text-secondary">{t('sign_in_desc')}</p>
             </div>
 
-            <form className="space-y-6">
+            <form 
+              className="space-y-6"
+              onSubmit={(e) => {
+                e.preventDefault();
+                router.push('/employee-dashboard');
+              }}
+            >
               <div className="space-y-2">
                 <label className="text-sm font-medium text-on-surface-variant block" htmlFor="employee-id">{t('employee_id_label')}</label>
                 <input className="w-full px-4 py-3 bg-surface-container-high rounded-lg border-none focus:ring-2 focus:ring-surface-tint focus:bg-surface-container-lowest transition-all placeholder:text-outline outline-none text-start" id="employee-id" placeholder={t('employee_id_placeholder')} type="text"/>

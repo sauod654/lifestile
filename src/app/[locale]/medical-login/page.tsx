@@ -1,13 +1,14 @@
 'use client';
 
 import {useTranslations, useLocale} from 'next-intl';
-import {Link, usePathname} from '@/i18n/routing';
+import {Link, usePathname, useRouter} from '@/i18n/routing';
 
 export default function MedicalLoginPage() {
   const t = useTranslations('MedicalLogin');
   const tCommon = useTranslations('Common');
   const locale = useLocale();
   const pathname = usePathname();
+  const router = useRouter();
 
   return (
     <div className="bg-surface font-body text-on-surface antialiased min-h-screen flex flex-col">
@@ -93,7 +94,13 @@ export default function MedicalLoginPage() {
                 <p className="text-secondary body-md">{t('login_desc')}</p>
               </div>
 
-              <form className="space-y-6">
+              <form 
+                className="space-y-6"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  router.push('/medical-dashboard');
+                }}
+              >
                 {/* Email Field */}
                 <div className="space-y-2">
                   <label className="block text-sm font-medium text-secondary ltr:ml-1 rtl:mr-1" htmlFor="email">{t('email_label')}</label>
