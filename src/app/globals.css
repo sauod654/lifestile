@@ -1,0 +1,94 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600&family=Noto+Sans+Arabic:wght@400;600;700;800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-surface-dim: #d8dada;
+  --color-on-primary-fixed: #001f28;
+  --color-on-surface: #191c1c;
+  --color-tertiary: #004545;
+  --color-surface-variant: #e1e3e2;
+  --color-on-error-container: #93000a;
+  --color-on-tertiary: #ffffff;
+  --color-surface-container-low: #f2f4f4;
+  --color-tertiary-fixed: #a0f0f0;
+  --color-tertiary-container: #005e5e;
+  --color-surface: #f8faf9;
+  --color-on-error: #ffffff;
+  --color-outline-variant: #bfc8cc;
+  --color-primary: #004355;
+  --color-secondary-fixed: #d6e5ec;
+  --color-on-tertiary-container: #86d6d5;
+  --color-error: #ba1a1a;
+  --color-inverse-on-surface: #eff1f1;
+  --color-on-primary-container: #8fd2ed;
+  --color-error-container: #ffdad6;
+  --color-on-secondary: #ffffff;
+  --color-background: #f8faf9;
+  --color-surface-container: #eceeee;
+  --color-surface-container-high: #e7e8e8;
+  --color-secondary: #536167;
+  --color-tertiary-fixed-dim: #84d4d3;
+  --color-on-secondary-container: #58676d;
+  --color-inverse-surface: #2e3131;
+  --color-outline: #70787d;
+  --color-surface-bright: #f8faf9;
+  --color-on-tertiary-fixed: #002020;
+  --color-on-surface-variant: #40484c;
+  --color-on-primary-fixed-variant: #004d61;
+  --color-surface-container-highest: #e1e3e2;
+  --color-on-secondary-fixed: #101d23;
+  --color-secondary-container: #d6e5ec;
+  --color-primary-fixed: #b8eaff;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-tint: #18667e;
+  --color-on-secondary-fixed-variant: #3b494f;
+  --color-on-background: #191c1c;
+  --color-secondary-fixed-dim: #bac9d0;
+  --color-primary-container: #005c73;
+  --color-on-tertiary-fixed-variant: #004f4f;
+  --color-inverse-primary: #8dd0ea;
+  --color-on-primary: #ffffff;
+  --color-primary-fixed-dim: #8dd0ea;
+
+  --radius-default: 0.125rem;
+  --radius-lg: 0.25rem;
+  --radius-xl: 0.5rem;
+  --radius-full: 0.75rem;
+
+  --font-headline: "Manrope", "Noto Sans Arabic", sans-serif;
+  --font-body: "Inter", "Noto Sans Arabic", sans-serif;
+  --font-label: "Inter", "Noto Sans Arabic", sans-serif;
+}
+
+@layer utilities {
+  .material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  }
+  .cloud-shadow {
+    box-shadow: 0 24px 48px -12px rgba(0, 31, 40, 0.08);
+  }
+  .glass-utility {
+    background-color: rgba(225, 227, 226, 0.6);
+    backdrop-filter: blur(20px);
+  }
+  .primary-gradient {
+    background: linear-gradient(135deg, #004355 0%, #005c73 100%);
+  }
+  .clinical-shadow {
+    box-shadow: 0 24px 48px -12px rgba(0, 31, 40, 0.08);
+  }
+}
+
+/* RTL Support explicitly added as custom utilities */
+[dir="rtl"] .primary-gradient {
+  background: linear-gradient(-135deg, #004355 0%, #005c73 100%);
+}
+[dir="rtl"] .font-headline { 
+  font-family: 'Noto Sans Arabic', 'Manrope', sans-serif; 
+}
+[dir="rtl"] .font-body { 
+  font-family: 'Noto Sans Arabic', 'Inter', sans-serif; 
+}
+[dir="rtl"] .group-hover\:translate-x-1:hover { 
+  transform: translateX(-0.25rem); 
+}
