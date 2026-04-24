@@ -100,7 +100,7 @@
     "top_requests": "Requests",
     "top_reports": "Reports",
     "search_placeholder": "Search patient IDs...",
-    "hero_title": "Clinical Atelier Workspace",
+    "hero_title": "LifeStyle Workspace",
     "hero_desc": "Precision medical surveillance and personalized health planning for the enterprise team.",
     "system_health": "System Health",
     "compliant": "Compliant • مستوفي",
@@ -235,7 +235,7 @@
   },
   "AdminDashboard": {
     "app_name": "Admin Portal",
-    "app_version": "Clinical Atelier v1.0",
+    "app_version": "LifeStyle v1.0",
     "nav_users": "User Management",
     "nav_permissions": "Permissions",
     "nav_settings": "System Settings",
@@ -272,7 +272,7 @@
     "encryption": "Advanced encryption for all files"
   },
   "SupplierDashboard": {
-    "app_name": "Clinical Atelier",
+    "app_name": "LifeStyle",
     "portal_label": "Supplier Portal",
     "nav_dashboard": "Dashboard",
     "nav_inventory": "Inventory",
@@ -313,7 +313,7 @@
     "support_title": "Need Assistance?",
     "support_desc": "Dedicated supplier concierge is available 24/7 for emergency medical requests.",
     "open_ticket": "Open Support Ticket",
-    "copyright": "\u00a9 2023 Clinical Atelier. All rights reserved.",
+    "copyright": "\u00a9 2023 LifeStyle. All rights reserved.",
     "terms": "Terms of Supply",
     "data_security": "Data Security",
     "system_operational": "System Status: Operational"
@@ -327,8 +327,9 @@
     "nav_schedule": "Schedule",
     "nav_support": "Support",
     "log_vitals_btn": "Log Vitals",
-    "greeting": "Welcome Ahmed,",
+    "greeting": "Welcome,",
     "greeting_subtitle": "Your wellness plan looks promising today.",
+    "logout": "Sign Out",
     "today": "Today",
     "weekly_health_plan": "Weekly Health Plan",
     "diet_plan": "Daily Nutrition Plan",

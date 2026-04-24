@@ -53,7 +53,7 @@ export default function Sidebar({ role }: SidebarProps) {
             <span className="material-symbols-outlined">clinical_notes</span>
           </div>
           <div className={isRTL ? 'text-right' : 'text-left'}>
-            <h1 className="text-lg font-black text-primary leading-none font-headline">Clinical Atelier</h1>
+            <h1 className="text-lg font-black text-primary leading-none font-headline">LifeStyle</h1>
             <p className="text-[10px] text-secondary font-bold tracking-widest uppercase">{t(`${role}_subtitle`)}</p>
           </div>
         </div>

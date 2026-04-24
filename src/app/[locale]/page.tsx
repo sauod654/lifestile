@@ -23,7 +23,7 @@ export default function HomePage() {
           <div className="w-10 h-10 signature-gradient rounded-xl flex items-center justify-center text-white shadow-lg">
             <span className="material-symbols-outlined font-bold">clinical_notes</span>
           </div>
-          <span className="text-2xl font-black tracking-tighter text-primary font-headline uppercase">LIFESTILE</span>
+          <span className="text-2xl font-black tracking-tighter text-primary font-headline uppercase">LifeStyle</span>
         </div>
 
         <div className="flex items-center gap-6">
@@ -45,7 +45,7 @@ export default function HomePage() {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
             </span>
-            Clinical Atelier v1.0
+            LifeStyle v1.0
           </div>
           <h1 className="text-5xl md:text-7xl font-black text-primary font-headline leading-[1.1] tracking-tight">
             {t('title')}

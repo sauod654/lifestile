@@ -14,20 +14,72 @@ export default function EmployeeDashboardPage() {
   const locale = useLocale();
   const isRtl = locale === 'ar';
 
-  const [waterAmount, setWaterAmount] = useState(1.8); // Liters
-  const [loading, setLoading] = useState(false);
+  const [waterAmount, setWaterAmount] = useState(0); // Initialized to 0 as requested
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // For Demo: Use hardcoded initial state
-    setWaterAmount(1.8);
-    setLoading(false);
+    const checkAndResetHydration = () => {
+      const now = new Date();
+      const currentYear = now.getFullYear();
+      const currentMonth = now.getMonth();
+      const currentDate = now.getDate();
+      const currentHours = now.getHours();
+
+      // Determine the "Health Day" boundary (Reset at 1:00 AM)
+      // If it's before 1:00 AM, we are still in the "Health Day" that started yesterday at 1:00 AM
+      let healthDayIdentifier;
+      if (currentHours < 1) {
+        const yesterday = new Date(now);
+        yesterday.setDate(now.getDate() - 1);
+        healthDayIdentifier = `${yesterday.getFullYear()}-${yesterday.getMonth()}-${yesterday.getDate()}`;
+      } else {
+        healthDayIdentifier = `${currentYear}-${currentMonth}-${currentDate}`;
+      }
+
+      const storedData = localStorage.getItem('hydration_data');
+      if (storedData) {
+        const { amount, lastHealthDay } = JSON.parse(storedData);
+        if (lastHealthDay === healthDayIdentifier) {
+          setWaterAmount(amount);
+        } else {
+          // New Health Day started (after 1:00 AM), reset to 0
+          setWaterAmount(0);
+          localStorage.setItem('hydration_data', JSON.stringify({ amount: 0, lastHealthDay: healthDayIdentifier }));
+        }
+      } else {
+        // First time initialization
+        setWaterAmount(0);
+        localStorage.setItem('hydration_data', JSON.stringify({ amount: 0, lastHealthDay: healthDayIdentifier }));
+      }
+      setLoading(false);
+    };
+
+    checkAndResetHydration();
   }, []);
 
   const handleAddWater = async () => {
     setLoading(true);
     // Simulate API delay
     setTimeout(() => {
-      setWaterAmount(prev => Math.min(prev + 0.25, targetLiters));
+      const newAmount = Math.min(waterAmount + 0.25, targetLiters);
+      setWaterAmount(newAmount);
+      
+      // Update local storage for persistence within the same health day
+      const now = new Date();
+      let healthDayIdentifier;
+      if (now.getHours() < 1) {
+        const yesterday = new Date(now);
+        yesterday.setDate(now.getDate() - 1);
+        healthDayIdentifier = `${yesterday.getFullYear()}-${yesterday.getMonth()}-${yesterday.getDate()}`;
+      } else {
+        healthDayIdentifier = `${now.getFullYear()}-${now.getMonth()}-${now.getDate()}`;
+      }
+      
+      localStorage.setItem('hydration_data', JSON.stringify({ 
+        amount: newAmount, 
+        lastHealthDay: healthDayIdentifier 
+      }));
+      
       setLoading(false);
     }, 800);
   };
@@ -213,7 +265,8 @@ export default function EmployeeDashboardPage() {
 
           {/* Vitals Snapshot */}
           <div className="lg:col-span-5 bg-surface-container-lowest rounded-[3rem] p-10 clinical-shadow flex flex-col">
-            <h3 className="text-3xl font-black text-primary mb-10 font-headline uppercase tracking-tighter">{t('vitals_snapshot')}</h3>
+            <h3 className="text-3xl font-black text-primary mb-2 font-headline uppercase tracking-tighter">{t('vitals_snapshot')}</h3>
+            <p className="text-[10px] font-black text-outline uppercase tracking-[0.2em] mb-10">Latest Clinical Results</p>
             <div className="space-y-4 flex-1">
               <div className="flex items-center justify-between p-6 bg-surface-container-low rounded-[2rem] transition-all hover:bg-surface-container-high group cursor-pointer">
                 <div className="flex items-center gap-6">
@@ -272,7 +325,7 @@ export default function EmployeeDashboardPage() {
         <section className="bg-primary/5 rounded-[4rem] p-16 flex flex-col md:flex-row items-center justify-between gap-12 relative overflow-hidden">
           <div className="max-w-xl relative z-10 text-center md:text-start">
             <h3 className="text-4xl font-black text-primary mb-4 font-headline uppercase tracking-tighter leading-none">{t('book_consultation')}</h3>
-            <p className="text-secondary text-xl font-medium leading-relaxed opacity-80">Schedule a virtual or in-person session with your primary clinical lead to discuss your recent trends.</p>
+            <p className="text-secondary text-xl font-medium leading-relaxed opacity-80">Discuss your recent trends and personalized health plan with your assigned medical team.</p>
           </div>
           <button className="primary-gradient-glow text-white font-black py-6 px-16 rounded-[2rem] text-xl hover:scale-105 active:scale-[0.98] transition-all flex items-center gap-4 relative z-10 uppercase tracking-tighter">
             <span className="material-symbols-outlined text-3xl">event_available</span>

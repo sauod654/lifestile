@@ -107,7 +107,7 @@ export default function EmployeeSignupPage() {
                 </div>
                 <div>
                   <h2 className="text-3xl font-headline font-black text-primary tracking-tighter uppercase leading-none">{t('title')}</h2>
-                  <p className="text-[10px] font-black text-outline uppercase tracking-[0.2em] mt-2">Clinical Atelier V1.0</p>
+                  <p className="text-[10px] font-black text-outline uppercase tracking-[0.2em] mt-2">LifeStyle V1.0</p>
                 </div>
               </div>
             </div>

@@ -47,7 +47,7 @@ export default function DashboardLayout({ children, role }: DashboardLayoutProps
   return (
     <div className="bg-surface text-on-surface min-h-screen font-body">
       <Sidebar role={role} />
-      <TopNav />
+      <TopNav role={role} />
       <main className={`${isRTL ? 'lg:mr-64 lg:ml-0' : 'lg:ml-64 lg:mr-0'} pt-16 min-h-screen`}>
         <div className="p-8 max-w-[1600px] mx-auto space-y-8">
           {children}

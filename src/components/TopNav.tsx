@@ -1,22 +1,50 @@
 'use client';
 
 import { useTranslations, useLocale } from 'next-intl';
-import { Link, usePathname } from '@/i18n/routing';
+import { Link, usePathname, useRouter } from '@/i18n/routing';
 
-export default function TopNav() {
+interface TopNavProps {
+  role?: 'admin' | 'medical' | 'employee' | 'supplier';
+}
+
+export default function TopNav({ role = 'medical' }: TopNavProps) {
   const t = useTranslations('TopNav');
+  const tEmployee = useTranslations('EmployeeDashboard');
   const locale = useLocale();
   const isRTL = locale === 'ar';
   const pathname = usePathname();
+  const router = useRouter();
+
+  const handleLogout = () => {
+    // Basic logout simulation
+    router.push('/employee-login');
+  };
+
+  const getProfileInfo = () => {
+    if (role === 'employee') {
+      return {
+        name: locale === 'ar' ? 'أحمد محمد' : 'Ahmed Mohammed',
+        title: locale === 'ar' ? 'موظف ميداني' : 'Field Employee',
+        avatar: "https://lh3.googleusercontent.com/aida-public/AB6AXuDyxM5WAfL8pMV2Ty6SR6LvMom9ilx_OaqqzVvbJPeHVF-rY-k4Whlc7ZEbnHtuFgP_UqzOcHTJ55D21cwlo4oxHdtpmFKya88cM6dHuVbcmiRa_NpEUZoEarkwnRU_lxX058FE57W8tMIF58Pse47Ek5xguIPtl-YoslaC1gDQrspTzC8WyOz-Xs19C3zqMNIRt7nEPJ95HILeJcu9GBAc_Te4j7dYPhU40qfPfwcMR4QZZqae-iSosUhyzz_jttxJ9bufSAoV8T0"
+      };
+    }
+    return {
+      name: "Dr. Aris Thorne",
+      title: "General Manager",
+      avatar: "https://lh3.googleusercontent.com/aida-public/AB6AXuCc008GjEildupII0_X-OV9snRyLvmt6XhO63y_cnIImg0PtgVPKqdD6-yfb_xNOz441geRm6n8KI04Pza99ANTvMpRgagLHL7JMRQwhQIAjYk2jqJh15qTSmCjbpBz6C27yyhXGX5OKGMoRt_ezLie4rDcKArK34zNDAbRiogdr9eolH6AbV6f_15oPpEWEYW6s0NemRNIQew8sWK7h7Ps1Sk-6JY2pdRgWSoJ8g_nn3Af9c_yIookNdPUaW6JYdX0fiOhDVjRUVw"
+    };
+  };
+
+  const profile = getProfileInfo();
 
   return (
     <header className={`fixed top-0 left-0 right-0 ${isRTL ? 'lg:mr-64 lg:ml-0' : 'lg:ml-64 lg:mr-0'} h-16 bg-surface/80 dark:bg-slate-950/80 backdrop-blur-xl z-30 flex justify-between items-center px-8 py-3 border-b border-outline-variant/10`}>
       <div className={`flex items-center gap-8 ${isRTL ? 'flex-row-reverse' : ''}`}>
-        <span className="text-xl font-bold tracking-tighter text-primary font-headline">Clinical Atelier</span>
+        <span className="text-xl font-black tracking-tighter text-primary font-headline uppercase">LifeStyle</span>
         <div className="hidden md:flex relative">
           <span className={`material-symbols-outlined absolute ${isRTL ? 'right-3' : 'left-3'} top-1/2 -translate-y-1/2 text-outline text-sm`}>search</span>
           <input
-            className={`bg-surface-container-high border-none rounded-full ${isRTL ? 'pr-10 pl-4' : 'pl-10 pr-4'} py-1.5 text-sm w-64 focus:ring-2 focus:ring-primary/20 placeholder:text-outline text-on-surface`}
+            className={`bg-surface-container-high border-none rounded-full ${isRTL ? 'pr-10 pl-4' : 'pl-10 pr-4'} py-1.5 text-sm w-64 focus:ring-2 focus:ring-primary/20 placeholder:text-outline text-on-surface outline-none`}
             placeholder={t('search_placeholder')}
             type="text"
           />
@@ -29,27 +57,31 @@ export default function TopNav() {
           <Link 
             href={pathname} 
             locale="ar" 
-            className={`px-3 py-1 text-xs font-bold rounded-full transition-all ${locale === 'ar' ? 'bg-white text-primary shadow-sm' : 'text-secondary hover:text-primary'}`}
+            className={`px-3 py-1 text-xs font-bold rounded-full transition-all ${locale === 'ar' ? 'bg-primary text-white shadow-sm' : 'text-secondary hover:text-primary'}`}
           >
             AR
           </Link>
           <Link 
             href={pathname} 
             locale="en" 
-            className={`px-3 py-1 text-xs font-medium rounded-full transition-all ${locale === 'en' ? 'bg-white text-primary shadow-sm' : 'text-secondary hover:text-primary'}`}
+            className={`px-3 py-1 text-xs font-bold rounded-full transition-all ${locale === 'en' ? 'bg-primary text-white shadow-sm' : 'text-secondary hover:text-primary'}`}
           >
             EN
           </Link>
         </div>
 
         <div className={`flex items-center gap-3 ${isRTL ? 'flex-row-reverse' : ''}`}>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1">
             <button className="p-2 text-secondary hover:bg-surface-container-high rounded-full transition-colors relative">
               <span className="material-symbols-outlined">notifications</span>
               <span className="absolute top-2 right-2 w-2 h-2 bg-error rounded-full border-2 border-surface"></span>
             </button>
-            <button className="p-2 text-secondary hover:bg-surface-container-high rounded-full transition-colors">
-              <span className="material-symbols-outlined">settings</span>
+            <button 
+              onClick={handleLogout}
+              title={tEmployee('logout')}
+              className="p-2 text-error hover:bg-error/10 rounded-full transition-colors"
+            >
+              <span className="material-symbols-outlined">logout</span>
             </button>
           </div>
           
@@ -57,13 +89,13 @@ export default function TopNav() {
           
           <div className={`flex items-center gap-3 ${isRTL ? 'flex-row-reverse' : ''}`}>
             <div className={`hidden lg:block ${isRTL ? 'text-right' : 'text-left'}`}>
-              <p className="text-xs font-bold text-primary">Dr. Aris Thorne</p>
-              <p className="text-[10px] text-secondary uppercase tracking-tighter">General Manager</p>
+              <p className="text-xs font-black text-primary uppercase tracking-tighter">{profile.name}</p>
+              <p className="text-[10px] text-outline font-bold uppercase tracking-widest">{profile.title}</p>
             </div>
             <img
-              alt="Administrator profile"
-              className="w-9 h-9 rounded-full object-cover ring-2 ring-primary/10 border border-outline-variant/20 p-0.5"
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuCc008GjEildupII0_X-OV9snRyLvmt6XhO63y_cnIImg0PtgVPKqdD6-yfb_xNOz441geRm6n8KI04Pza99ANTvMpRgagLHL7JMRQwhQIAjYk2jqJh15qTSmCjbpBz6C27yyhXGX5OKGMoRt_ezLie4rDcKArK34zNDAbRiogdr9eolH6AbV6f_15oPpEWEYW6s0NemRNIQew8sWK7h7Ps1Sk-6JY2pdRgWSoJ8g_nn3Af9c_yIookNdPUaW6JYdX0fiOhDVjRUVw"
+              alt="User profile"
+              className="w-9 h-9 rounded-xl object-cover ring-2 ring-primary/5 border border-outline-variant/20 p-0.5"
+              src={profile.avatar}
             />
           </div>
         </div>

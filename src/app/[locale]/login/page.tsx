@@ -42,7 +42,7 @@ export default function LoginPage() {
           <div className="w-16 h-16 bg-primary-container rounded-2xl flex items-center justify-center text-on-primary mx-auto mb-4">
             <span className="material-symbols-outlined text-3xl">clinical_notes</span>
           </div>
-          <h1 className="text-3xl font-black text-primary tracking-tight">Clinical Atelier</h1>
+          <h1 className="text-3xl font-black text-primary tracking-tight">LifeStyle</h1>
           <p className="text-secondary font-medium mt-2">Sign in to manage your portal</p>
         </div>
 

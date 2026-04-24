@@ -106,7 +106,7 @@ export default function EmployeeLoginPage() {
                 </div>
                 <div>
                   <h2 className="text-3xl font-headline font-black text-primary tracking-tighter uppercase leading-none">{t('sign_in_title')}</h2>
-                  <p className="text-[10px] font-black text-outline uppercase tracking-[0.2em] mt-2">Clinical Atelier V1.0</p>
+                  <p className="text-[10px] font-black text-outline uppercase tracking-[0.2em] mt-2">LifeStyle V1.0</p>
                 </div>
               </div>
               <p className="text-secondary font-medium mt-6 leading-relaxed opacity-70">{t('sign_in_desc')}</p>
