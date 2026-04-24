@@ -1,4 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600&family=Noto+Sans+Arabic:wght@400;600;700;800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600&family=Noto+Sans+Arabic:wght@400;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-25..0');
 @import "tailwindcss";
 
 @theme {
@@ -62,7 +63,16 @@
 
 @layer utilities {
   .material-symbols-outlined {
+    font-family: 'Material Symbols Outlined' !important;
     font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    font-style: normal;
+    display: inline-block;
+    line-height: 1;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
   }
   .cloud-shadow {
     box-shadow: 0 24px 48px -12px rgba(0, 31, 40, 0.08);
@@ -71,8 +81,12 @@
     background-color: rgba(225, 227, 226, 0.6);
     backdrop-filter: blur(20px);
   }
-  .primary-gradient {
+  .signature-gradient {
     background: linear-gradient(135deg, #004355 0%, #005c73 100%);
+  }
+  .primary-gradient-glow {
+    background: linear-gradient(135deg, #004355 0%, #005c73 100%);
+    box-shadow: 0 10px 20px -5px rgba(0, 67, 85, 0.4);
   }
   .clinical-shadow {
     box-shadow: 0 24px 48px -12px rgba(0, 31, 40, 0.08);

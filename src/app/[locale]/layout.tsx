@@ -29,6 +29,9 @@ export default async function LocaleLayout({
  
   return (
     <html lang={locale} dir={locale === 'ar' ? 'rtl' : 'ltr'}>
+      <head>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-25..0" />
+      </head>
       <body>
         <NextIntlClientProvider messages={messages}>
           {children}
