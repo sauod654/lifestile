@@ -1,7 +1,9 @@
 'use client';
 
-import {useTranslations, useLocale} from 'next-intl';
-import {Link, usePathname, useRouter} from '@/i18n/routing';
+import { useState } from 'react';
+import { supabase } from '@/lib/supabase';
+import { useTranslations, useLocale } from 'next-intl';
+import { Link, usePathname, useRouter } from '@/i18n/routing';
 
 export default function EmployeeSignupPage() {
   const t = useTranslations('EmployeeSignup');
@@ -10,6 +12,9 @@ export default function EmployeeSignupPage() {
   const locale = useLocale();
   const pathname = usePathname();
   const router = useRouter();
+
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   return (
     <div className="bg-surface font-body text-on-surface overflow-x-hidden transition-all duration-300 min-h-screen flex flex-col">
@@ -114,17 +119,55 @@ export default function EmployeeSignupPage() {
 
             <form 
               className="space-y-5"
-              onSubmit={(e) => {
+              onSubmit={async (e) => {
                 e.preventDefault();
-                router.push('/employee-dashboard');
+                setLoading(true);
+                setError(null);
+
+                const fullName = (e.currentTarget.elements.namedItem('full-name') as HTMLInputElement).value;
+                const email = (e.currentTarget.elements.namedItem('email') as HTMLInputElement).value;
+                const password = (e.currentTarget.elements.namedItem('password') as HTMLInputElement).value;
+                const confirmPassword = (e.currentTarget.elements.namedItem('confirm-password') as HTMLInputElement).value;
+
+                if (password !== confirmPassword) {
+                  setError(t('password_mismatch'));
+                  setLoading(false);
+                  return;
+                }
+
+                const { data, error: signupError } = await supabase.auth.signUp({
+                  email,
+                  password,
+                  options: {
+                    data: {
+                      full_name: fullName,
+                      role: 'employee'
+                    }
+                  }
+                });
+
+                if (signupError) {
+                  setError(signupError.message);
+                  setLoading(false);
+                } else {
+                  // Success! Redirect to login or show success message
+                  router.push('/employee-login?signup=success');
+                }
               }}
             >
+              {error && (
+                <div className="p-4 bg-error-container text-on-error-container rounded-2xl text-xs font-bold animate-shake">
+                  {error}
+                </div>
+              )}
+
               {/* Full Name */}
               <div className="space-y-2">
                 <label className="text-[10px] font-black text-outline uppercase tracking-[0.2em] block" htmlFor="full-name">{t('full_name_label')}</label>
                 <input 
                   className="w-full px-6 py-4 bg-surface-container-high rounded-2xl border-none focus:ring-2 focus:ring-primary/20 focus:bg-surface-container-lowest transition-all placeholder:text-outline outline-none text-start font-medium" 
                   id="full-name" 
+                  name="full-name"
                   placeholder={t('full_name_placeholder')} 
                   type="text"
                   required
@@ -137,6 +180,7 @@ export default function EmployeeSignupPage() {
                 <input 
                   className="w-full px-6 py-4 bg-surface-container-high rounded-2xl border-none focus:ring-2 focus:ring-primary/20 focus:bg-surface-container-lowest transition-all placeholder:text-outline outline-none text-start font-medium" 
                   id="email" 
+                  name="email"
                   placeholder={t('email_placeholder')} 
                   type="email"
                   required
@@ -149,6 +193,7 @@ export default function EmployeeSignupPage() {
                 <input 
                   className="w-full px-6 py-4 bg-surface-container-high rounded-2xl border-none focus:ring-2 focus:ring-primary/20 focus:bg-surface-container-lowest transition-all placeholder:text-outline outline-none text-start font-medium" 
                   id="password" 
+                  name="password"
                   placeholder="••••••••" 
                   type="password"
                   required
@@ -161,14 +206,19 @@ export default function EmployeeSignupPage() {
                 <input 
                   className="w-full px-6 py-4 bg-surface-container-high rounded-2xl border-none focus:ring-2 focus:ring-primary/20 focus:bg-surface-container-lowest transition-all placeholder:text-outline outline-none text-start font-medium" 
                   id="confirm-password" 
+                  name="confirm-password"
                   placeholder="••••••••" 
                   type="password"
                   required
                 />
               </div>
 
-              <button className="w-full py-5 signature-gradient text-white font-black uppercase tracking-widest rounded-2xl shadow-xl shadow-primary/20 hover:opacity-90 active:scale-[0.98] transition-all flex items-center justify-center gap-3 mt-8" type="submit">
-                <span>{t('signup_btn')}</span>
+              <button 
+                className="w-full py-5 signature-gradient text-white font-black uppercase tracking-widest rounded-2xl shadow-xl shadow-primary/20 hover:opacity-90 active:scale-[0.98] transition-all flex items-center justify-center gap-3 mt-8 disabled:opacity-50" 
+                type="submit"
+                disabled={loading}
+              >
+                <span>{loading ? t('loading') : t('signup_btn')}</span>
                 <span className="material-symbols-outlined text-xl rtl:rotate-180">arrow_forward</span>
               </button>
 

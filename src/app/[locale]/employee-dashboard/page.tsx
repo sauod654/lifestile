@@ -1,32 +1,35 @@
 'use client';
 
-import {useTranslations, useLocale} from 'next-intl';
-import {useState, useEffect} from 'react';
-import {Link} from '@/i18n/routing';
+import { supabase } from '@/lib/supabase';
+import { useTranslations, useLocale } from 'next-intl';
+import { useState, useEffect } from 'react';
+import { Link } from '@/i18n/routing';
 import DashboardLayout from '@/components/DashboardLayout';
-import { getHydrationLevel, logWaterIntake } from '@/utils/clinical';
-
-// Mock current user ID for demonstration until auth is fully implemented
-const MOCK_USER_ID = '00000000-0000-0000-0000-000000000000';
 
 export default function EmployeeDashboardPage() {
   const t = useTranslations('EmployeeDashboard');
   const locale = useLocale();
   const isRtl = locale === 'ar';
 
-  const [waterAmount, setWaterAmount] = useState(0); // Initialized to 0 as requested
+  const [waterAmount, setWaterAmount] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [userName, setUserName] = useState<string>('');
 
   useEffect(() => {
-    const checkAndResetHydration = () => {
+    const initDashboard = async () => {
+      // 1. Fetch Auth Session for Personalized Greeting
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
+        setUserName(session.user.user_metadata?.full_name || '');
+      }
+
+      // 2. Hydration Reset Logic (1:00 AM)
       const now = new Date();
       const currentYear = now.getFullYear();
       const currentMonth = now.getMonth();
       const currentDate = now.getDate();
       const currentHours = now.getHours();
 
-      // Determine the "Health Day" boundary (Reset at 1:00 AM)
-      // If it's before 1:00 AM, we are still in the "Health Day" that started yesterday at 1:00 AM
       let healthDayIdentifier;
       if (currentHours < 1) {
         const yesterday = new Date(now);
@@ -42,29 +45,25 @@ export default function EmployeeDashboardPage() {
         if (lastHealthDay === healthDayIdentifier) {
           setWaterAmount(amount);
         } else {
-          // New Health Day started (after 1:00 AM), reset to 0
           setWaterAmount(0);
           localStorage.setItem('hydration_data', JSON.stringify({ amount: 0, lastHealthDay: healthDayIdentifier }));
         }
       } else {
-        // First time initialization
         setWaterAmount(0);
         localStorage.setItem('hydration_data', JSON.stringify({ amount: 0, lastHealthDay: healthDayIdentifier }));
       }
       setLoading(false);
     };
 
-    checkAndResetHydration();
+    initDashboard();
   }, []);
 
   const handleAddWater = async () => {
     setLoading(true);
-    // Simulate API delay
     setTimeout(() => {
       const newAmount = Math.min(waterAmount + 0.25, targetLiters);
       setWaterAmount(newAmount);
       
-      // Update local storage for persistence within the same health day
       const now = new Date();
       let healthDayIdentifier;
       if (now.getHours() < 1) {
@@ -94,7 +93,7 @@ export default function EmployeeDashboardPage() {
         <header className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
           <div className="animate-fade-in">
             <h1 className="text-5xl font-black text-primary tracking-tighter mb-2 font-headline uppercase leading-none">
-              {t('greeting')}
+              {t('greeting')} {userName}
             </h1>
             <p className="text-xl text-secondary max-w-2xl leading-relaxed font-medium">{t('greeting_subtitle')}</p>
           </div>
@@ -332,7 +331,6 @@ export default function EmployeeDashboardPage() {
             <span>{t('schedule_now')}</span>
           </button>
           
-          {/* Abstract Decorations */}
           <div className="absolute -left-20 -bottom-20 w-64 h-64 bg-primary/5 rounded-full blur-3xl"></div>
           <div className="absolute right-20 top-0 w-32 h-32 bg-primary/10 rounded-full blur-2xl"></div>
         </section>

@@ -5,9 +5,10 @@ import { Link, usePathname, useRouter } from '@/i18n/routing';
 
 interface TopNavProps {
   role?: 'admin' | 'medical' | 'employee' | 'supplier';
+  userName?: string;
 }
 
-export default function TopNav({ role = 'medical' }: TopNavProps) {
+export default function TopNav({ role = 'medical', userName }: TopNavProps) {
   const t = useTranslations('TopNav');
   const tEmployee = useTranslations('EmployeeDashboard');
   const locale = useLocale();
@@ -23,7 +24,7 @@ export default function TopNav({ role = 'medical' }: TopNavProps) {
   const getProfileInfo = () => {
     if (role === 'employee') {
       return {
-        name: locale === 'ar' ? 'أحمد محمد' : 'Ahmed Mohammed',
+        name: userName || (locale === 'ar' ? 'أحمد محمد' : 'Ahmed Mohammed'),
         title: locale === 'ar' ? 'موظف ميداني' : 'Field Employee',
         avatar: "https://lh3.googleusercontent.com/aida-public/AB6AXuDyxM5WAfL8pMV2Ty6SR6LvMom9ilx_OaqqzVvbJPeHVF-rY-k4Whlc7ZEbnHtuFgP_UqzOcHTJ55D21cwlo4oxHdtpmFKya88cM6dHuVbcmiRa_NpEUZoEarkwnRU_lxX058FE57W8tMIF58Pse47Ek5xguIPtl-YoslaC1gDQrspTzC8WyOz-Xs19C3zqMNIRt7nEPJ95HILeJcu9GBAc_Te4j7dYPhU40qfPfwcMR4QZZqae-iSosUhyzz_jttxJ9bufSAoV8T0"
       };

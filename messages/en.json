@@ -80,6 +80,7 @@
     "forgot_password": "Forgot Password?",
     "remember_me": "Remember Me",
     "login_btn": "Login",
+    "authenticating": "Authenticating...",
     "spotlight_title": "Community Spotlight",
     "spotlight_quote": "\"Trust starts with each of us.\" — Sarah J., Senior Auditor",
     "no_account": "Don't have an account?",
@@ -444,6 +445,33 @@
     "confirm_password_label": "Confirm Password",
     "signup_btn": "Create Account",
     "already_have_account": "Already have an account?",
-    "login_link": "Sign In"
+    "login_link": "Sign In",
+    "password_mismatch": "Passwords do not match",
+    "signup_success": "Account created successfully! You can now sign in.",
+    "loading": "Loading..."
+  },
+  "PermissionsMatrix": {
+    "title": "Permissions Matrix",
+    "subtitle": "Define and enforce the role-based access control matrix across all platform modules.",
+    "create_role": "Create New Role",
+    "matrix_structure": "Matrix Structure",
+    "capabilities_roles": "Capabilities / Roles",
+    "standard_procedure": "Standard clinical operating procedure",
+    "reset_defaults": "Reset Defaults",
+    "compliance_verification": "Compliance Verification",
+    "compliance_desc": "\"The current permissions matrix aligns with HIPAA Tier 2 requirements and SOC2 Type II internal controls for medical data access management.\"",
+    "certified_on": "Certified on Oct 12, 2023",
+    "role_admin": "Admin",
+    "role_medical_lead": "Medical Lead",
+    "role_practitioner": "Practitioner",
+    "role_supplier": "Supplier",
+    "role_employee": "Employee",
+    "perm_clinical_view": "Clinical Data View",
+    "perm_clinical_edit": "Clinical Data Edit",
+    "perm_financial": "Financial Records Access",
+    "perm_suppliers": "Supplier Management",
+    "perm_staffing": "Staff Provisioning",
+    "perm_audit": "Audit Log Export",
+    "perm_settings": "Global System Settings"
   }
 }

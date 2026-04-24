@@ -4,26 +4,26 @@ import {useTranslations, useLocale} from 'next-intl';
 import DashboardLayout from '@/components/DashboardLayout';
 
 export default function PermissionsMatrixPage() {
-  const t = useTranslations('AdminDashboard');
+  const tMatrix = useTranslations('PermissionsMatrix');
   const locale = useLocale();
   const isRtl = locale === 'ar';
 
   const permissions = [
-    'Clinical Data View',
-    'Clinical Data Edit',
-    'Financial Records Access',
-    'Supplier Management',
-    'Staff Provisioning',
-    'Audit Log Export',
-    'Global System Settings'
+    tMatrix('perm_clinical_view'),
+    tMatrix('perm_clinical_edit'),
+    tMatrix('perm_financial'),
+    tMatrix('perm_suppliers'),
+    tMatrix('perm_staffing'),
+    tMatrix('perm_audit'),
+    tMatrix('perm_settings')
   ];
 
   const roles = [
-    { name: 'Admin', color: 'bg-primary', access: [true, true, true, true, true, true, true] },
-    { name: 'Medical Lead', color: 'bg-tertiary', access: [true, true, false, false, true, true, false] },
-    { name: 'Practitioner', color: 'bg-primary-container', access: [true, true, false, false, false, false, false] },
-    { name: 'Supplier', color: 'bg-secondary', access: [false, false, true, true, false, false, false] },
-    { name: 'Employee', color: 'bg-surface-container-high', access: [true, false, false, false, false, false, false] },
+    { name: tMatrix('role_admin'), color: 'bg-primary', access: [true, true, true, true, true, true, true] },
+    { name: tMatrix('role_medical_lead'), color: 'bg-tertiary', access: [true, true, false, false, true, true, false] },
+    { name: tMatrix('role_practitioner'), color: 'bg-primary-container', access: [true, true, false, false, false, false, false] },
+    { name: tMatrix('role_supplier'), color: 'bg-secondary', access: [false, false, true, true, false, false, false] },
+    { name: tMatrix('role_employee'), color: 'bg-surface-container-high', access: [true, false, false, false, false, false, false] },
   ];
 
   return (
@@ -32,12 +32,12 @@ export default function PermissionsMatrixPage() {
         {/* Header */}
         <header className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
           <div>
-            <h1 className="text-4xl font-extrabold text-primary tracking-tight mb-2">{t('nav_permissions')}</h1>
-            <p className="text-lg text-secondary max-w-2xl leading-relaxed">Define and enforce the role-based access control matrix across all platform modules.</p>
+            <h1 className="text-4xl font-extrabold text-primary tracking-tight mb-2">{tMatrix('title')}</h1>
+            <p className="text-lg text-secondary max-w-2xl leading-relaxed">{tMatrix('subtitle')}</p>
           </div>
           <button className="bg-primary text-white px-8 py-3.5 rounded-xl font-black shadow-lg hover:brightness-110 active:scale-[0.98] transition-all flex items-center gap-2">
             <span className="material-symbols-outlined">add_moderator</span>
-            <span>Create New Role</span>
+            <span>{tMatrix('create_role')}</span>
           </button>
         </header>
 
@@ -47,13 +47,13 @@ export default function PermissionsMatrixPage() {
             <table className="w-full min-w-[800px]">
               <thead>
                 <tr>
-                  <th className="pb-10 text-left px-4 w-1/3">
-                    <p className="text-[10px] font-black text-outline uppercase tracking-widest mb-1">Matrix Structure</p>
-                    <p className="text-2xl font-extrabold text-primary">Capabilities / Roles</p>
+                  <th className={`pb-10 px-4 w-1/3 ${isRtl ? 'text-right' : 'text-left'}`}>
+                    <p className="text-[10px] font-black text-outline uppercase tracking-widest mb-1">{tMatrix('matrix_structure')}</p>
+                    <p className="text-2xl font-extrabold text-primary">{tMatrix('capabilities_roles')}</p>
                   </th>
                   {roles.map((role, idx) => (
                     <th key={idx} className="pb-10 px-4 text-center">
-                      <div className={`w-32 mx-auto py-3 rounded-2xl ${role.color} ${role.name === 'Employee' ? 'text-primary' : 'text-white'} shadow-sm`}>
+                      <div className={`w-32 mx-auto py-3 rounded-2xl ${role.color} ${role.name === tMatrix('role_employee') ? 'text-primary' : 'text-white'} shadow-sm`}>
                         <p className="text-xs font-black uppercase tracking-tighter">{role.name}</p>
                       </div>
                     </th>
@@ -63,9 +63,9 @@ export default function PermissionsMatrixPage() {
               <tbody className="divide-y divide-outline-variant/10">
                 {permissions.map((perm, pIdx) => (
                   <tr key={pIdx} className="group hover:bg-surface-container-low/40 transition-all">
-                    <td className="py-8 px-4">
+                    <td className={`py-8 px-4 ${isRtl ? 'text-right' : 'text-left'}`}>
                       <p className="text-lg font-bold text-primary tracking-tight">{perm}</p>
-                      <p className="text-xs text-secondary font-medium">Standard clinical operating procedure</p>
+                      <p className="text-xs text-secondary font-medium">{tMatrix('standard_procedure')}</p>
                     </td>
                     {roles.map((role, rIdx) => (
                       <td key={rIdx} className="py-8 px-4 text-center">
@@ -101,7 +101,7 @@ export default function PermissionsMatrixPage() {
                 {t('update_permissions')}
               </button>
               <button className="flex-1 py-4 bg-surface-container-highest text-primary font-bold rounded-xl hover:bg-white transition-all shadow-sm">
-                Reset Defaults
+                {tMatrix('reset_defaults')}
               </button>
             </div>
           </div>
@@ -110,15 +110,15 @@ export default function PermissionsMatrixPage() {
             <div>
               <div className="flex items-center gap-3 mb-4">
                 <span className="material-symbols-outlined text-secondary">security</span>
-                <h3 className="text-xl font-bold text-primary">Compliance Verification</h3>
+                <h3 className="text-xl font-bold text-primary">{tMatrix('compliance_verification')}</h3>
               </div>
               <p className="text-sm text-on-secondary-container/80 leading-relaxed italic">
-                "The current permissions matrix aligns with HIPAA Tier 2 requirements and SOC2 Type II internal controls for medical data access management."
+                {tMatrix('compliance_desc')}
               </p>
             </div>
             <div className="mt-8 flex items-center gap-2 text-secondary">
               <span className="material-symbols-outlined text-sm">verified_user</span>
-              <p className="text-[10px] font-bold uppercase tracking-widest">Certified on Oct 12, 2023</p>
+              <p className="text-[10px] font-bold uppercase tracking-widest">{tMatrix('certified_on')}</p>
             </div>
           </div>
         </div>

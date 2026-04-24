@@ -1,7 +1,9 @@
 'use client';
 
-import {useTranslations, useLocale} from 'next-intl';
-import {Link, usePathname, useRouter} from '@/i18n/routing';
+import { useState, useEffect } from 'react';
+import { supabase } from '@/lib/supabase';
+import { useTranslations, useLocale } from 'next-intl';
+import { Link, usePathname, useRouter } from '@/i18n/routing';
 
 export default function EmployeeLoginPage() {
   const t = useTranslations('EmployeeLogin');
@@ -10,15 +12,38 @@ export default function EmployeeLoginPage() {
   const pathname = usePathname();
   const router = useRouter();
 
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
+
+    const { data, error: authError } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (authError) {
+      setError(authError.message);
+      setLoading(false);
+    } else {
+      router.push('/employee-dashboard');
+    }
+  };
+
   return (
     <div className="bg-surface font-body text-on-surface overflow-x-hidden transition-all duration-300 min-h-screen flex flex-col">
-      {/* TopAppBar */}
+      {/* ... existing header ... */}
       <header className="bg-surface-container-high flex justify-between items-center w-full px-8 py-5 border-none shadow-sm sticky top-0 z-50">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 rounded-lg signature-gradient flex items-center justify-center">
             <span className="material-symbols-outlined text-white text-lg" style={{fontVariationSettings: "'FILL' 1"}}>clinical_notes</span>
           </div>
-          <span className="text-xl font-black text-primary font-headline tracking-tighter uppercase">{tCommon('header_title')}</span>
+          <span className="text-xl font-black text-primary font-headline tracking-tighter uppercase">LifeStyle</span>
         </div>
         <div className="flex items-center gap-6">
           <div className="hidden md:flex gap-8 items-center">
@@ -62,7 +87,7 @@ export default function EmployeeLoginPage() {
       </header>
 
       <main className="flex-grow flex flex-col md:flex-row">
-        {/* Editorial Side Branding */}
+        {/* ... existing branding ... */}
         <section className="hidden md:flex md:w-1/2 lg:w-3/5 bg-surface-container-low flex-col justify-center px-12 lg:px-24 relative overflow-hidden">
           <div className="relative z-10">
             <span className="text-[10px] font-black text-tertiary bg-tertiary/10 px-4 py-2 rounded-full mb-8 inline-block uppercase tracking-[0.2em]">
@@ -73,7 +98,6 @@ export default function EmployeeLoginPage() {
             <p className="text-xl text-secondary max-w-md mb-16 font-medium leading-relaxed opacity-80">
               {t('hero_desc')}
             </p>
-            {/* Community Metric Bento Chips */}
             <div className="grid grid-cols-2 gap-6 max-w-lg">
               <div className="bg-surface-container-lowest p-8 rounded-[2rem] clinical-shadow group hover:scale-105 transition-all">
                 <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary mb-4 group-hover:signature-gradient group-hover:text-white transition-all">
@@ -91,12 +115,10 @@ export default function EmployeeLoginPage() {
               </div>
             </div>
           </div>
-          {/* Abstract Background Visual */}
           <div className="absolute -right-20 -bottom-20 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px]"></div>
           <div className="absolute -left-10 top-20 w-80 h-80 bg-tertiary/5 rounded-full blur-[100px]"></div>
         </section>
 
-        {/* Login Canvas */}
         <section className="flex-1 bg-surface flex items-center justify-center p-6 md:p-12 lg:p-24 relative">
           <div className="w-full max-w-md bg-surface-container-lowest p-10 md:p-14 rounded-[3.5rem] clinical-shadow relative z-10">
             <div className="mb-12">
@@ -112,16 +134,24 @@ export default function EmployeeLoginPage() {
               <p className="text-secondary font-medium mt-6 leading-relaxed opacity-70">{t('sign_in_desc')}</p>
             </div>
 
-            <form 
-              className="space-y-6"
-              onSubmit={(e) => {
-                e.preventDefault();
-                router.push('/employee-dashboard');
-              }}
-            >
+            <form className="space-y-6" onSubmit={handleLogin}>
+              {error && (
+                <div className="p-4 bg-error-container text-on-error-container rounded-2xl text-xs font-bold animate-shake">
+                  {error}
+                </div>
+              )}
+
               <div className="space-y-2">
-                <label className="text-sm font-medium text-on-surface-variant block" htmlFor="employee-id">{t('employee_id_label')}</label>
-                <input className="w-full px-4 py-3 bg-surface-container-high rounded-lg border-none focus:ring-2 focus:ring-surface-tint focus:bg-surface-container-lowest transition-all placeholder:text-outline outline-none text-start" id="employee-id" placeholder={t('employee_id_placeholder')} type="text"/>
+                <label className="text-sm font-medium text-on-surface-variant block" htmlFor="employee-email">{t('employee_id_label')}</label>
+                <input 
+                  className="w-full px-4 py-3 bg-surface-container-high rounded-lg border-none focus:ring-2 focus:ring-surface-tint focus:bg-surface-container-lowest transition-all placeholder:text-outline outline-none text-start" 
+                  id="employee-email" 
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder={t('employee_id_placeholder')} 
+                  type="email"
+                  required
+                />
               </div>
 
               <div className="space-y-2">
@@ -130,7 +160,15 @@ export default function EmployeeLoginPage() {
                   <a className="text-sm font-medium text-tertiary hover:underline" href="#">{t('forgot_password')}</a>
                 </div>
                 <div className="relative">
-                  <input className="w-full px-4 py-3 bg-surface-container-high rounded-lg border-none focus:ring-2 focus:ring-surface-tint focus:bg-surface-container-lowest transition-all placeholder:text-outline outline-none text-start" id="password" placeholder="••••••••" type="password"/>
+                  <input 
+                    className="w-full px-4 py-3 bg-surface-container-high rounded-lg border-none focus:ring-2 focus:ring-surface-tint focus:bg-surface-container-lowest transition-all placeholder:text-outline outline-none text-start" 
+                    id="password" 
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="••••••••" 
+                    type="password"
+                    required
+                  />
                   <button className="absolute ltr:right-3 rtl:left-3 top-1/2 -translate-y-1/2 text-outline" type="button">
                     <span className="material-symbols-outlined text-sm">visibility</span>
                   </button>
@@ -142,8 +180,12 @@ export default function EmployeeLoginPage() {
                 <label className="text-sm text-on-surface-variant cursor-pointer select-none" htmlFor="remember">{t('remember_me')}</label>
               </div>
 
-              <button className="w-full py-4 signature-gradient text-white font-semibold rounded-lg shadow-lg hover:shadow-primary/20 hover:opacity-90 active:scale-[0.98] transition-all flex items-center justify-center gap-2 mb-6" type="submit">
-                <span>{t('login_btn')}</span>
+              <button 
+                className="w-full py-4 signature-gradient text-white font-semibold rounded-lg shadow-lg hover:shadow-primary/20 hover:opacity-90 active:scale-[0.98] transition-all flex items-center justify-center gap-2 mb-6 disabled:opacity-50" 
+                type="submit"
+                disabled={loading}
+              >
+                <span>{loading ? t('authenticating') : t('login_btn')}</span>
                 <span className="material-symbols-outlined text-lg rtl:rotate-180">login</span>
               </button>
 

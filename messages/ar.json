@@ -61,7 +61,10 @@
     "stay_auth": "البقاء مسجلاً",
     "authorize_btn": "مصادقة الدخول",
     "new_partner": "شريك مورد جديد؟",
-    "apply_credentials": "تقديم طلب الاعتماد"
+    "apply_credentials": "تقديم طلب الاعتماد",
+    "hero_title": "موارد الموردين",
+    "active_shipments": "الشحنات النشطة",
+    "shipments_count": "1,482 وحدة"
   },
   "EmployeeLogin": {
     "nav_medical": "طبي",
@@ -80,6 +83,7 @@
     "forgot_password": "نسيت كلمة المرور؟",
     "remember_me": "تذكرني",
     "login_btn": "تسجيل الدخول",
+    "authenticating": "جاري التحقق...",
     "spotlight_title": "تسليط الضوء على المجتمع",
     "spotlight_quote": "\"الثقة تبدأ بكل واحد単.\" — سارة ج.، مدققة أولى",
     "no_account": "ليس لديك حساب؟",
@@ -444,6 +448,33 @@
     "confirm_password_label": "تأكيد كلمة المرور",
     "signup_btn": "إنشاء الحساب",
     "already_have_account": "لديك حساب بالفعل؟",
-    "login_link": "تسجيل الدخول"
+    "login_link": "تسجيل الدخول",
+    "password_mismatch": "كلمات المرور غير متطابقة",
+    "signup_success": "تم إنشاء الحساب بنجاح! يمكنك الآن تسجيل الدخول.",
+    "loading": "جاري التحميل..."
+  },
+  "PermissionsMatrix": {
+    "title": "مصفوفة الصلاحيات",
+    "subtitle": "تحديد وفرض مصفوفة التحكم في الوصول بناءً على الأدوار عبر جميع وحدات المنصة.",
+    "create_role": "إنشاء دور جديد",
+    "matrix_structure": "هيكل المصفوفة",
+    "capabilities_roles": "القدرات / الأدوار",
+    "standard_procedure": "إجراء تشغيل سريري قياسي",
+    "reset_defaults": "إعادة تعيين الافتراضات",
+    "compliance_verification": "التحقق من الامتثال",
+    "compliance_desc": "\"تتوافق مصفوفة الأذونات الحالية مع متطلبات HIPAA Tier 2 وضوابط SOC2 Type II الداخلية لإدارة الوصول إلى البيانات الطبية.\"",
+    "certified_on": "تم الاعتماد في 12 أكتوبر 2023",
+    "role_admin": "مدير للنظام",
+    "role_medical_lead": "قائد طبي",
+    "role_practitioner": "ممارس طبي",
+    "role_supplier": "مورد خارجي",
+    "role_employee": "موظف عمليات",
+    "perm_clinical_view": "عرض البيانات السريرية",
+    "perm_clinical_edit": "تعديل البيانات السريرية",
+    "perm_financial": "الوصول للسجلات المالية",
+    "perm_suppliers": "إدارة الموردين",
+    "perm_staffing": "تزويد الموظفين",
+    "perm_audit": "تصدير سجل التدقيق",
+    "perm_settings": "إعدادات النظام العالمية"
   }
 }

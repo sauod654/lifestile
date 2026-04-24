@@ -17,22 +17,21 @@ export default function DashboardLayout({ children, role }: DashboardLayoutProps
   const router = useRouter();
   const isRTL = locale === 'ar';
   const [loading, setLoading] = useState(true);
+  const [userName, setUserName] = useState<string>('');
 
   useEffect(() => {
-    // Temporarily disabled for demo purposes
-    /*
     const checkAuth = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       if (!session) {
-        router.push('/login');
+        // Use a more specific login page based on context or just a general one
+        router.push('/employee-login');
       } else {
+        setUserName(session.user.user_metadata?.full_name || '');
         setLoading(false);
       }
     };
     checkAuth();
-    */
-    setLoading(false);
-  }, [locale, router]);
+  }, [router]);
 
   if (loading) {
     return (
@@ -47,7 +46,7 @@ export default function DashboardLayout({ children, role }: DashboardLayoutProps
   return (
     <div className="bg-surface text-on-surface min-h-screen font-body">
       <Sidebar role={role} />
-      <TopNav role={role} />
+      <TopNav role={role} userName={userName} />
       <main className={`${isRTL ? 'lg:mr-64 lg:ml-0' : 'lg:ml-64 lg:mr-0'} pt-16 min-h-screen`}>
         <div className="p-8 max-w-[1600px] mx-auto space-y-8">
           {children}
