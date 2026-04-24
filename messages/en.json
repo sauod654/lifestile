@@ -81,7 +81,9 @@
     "remember_me": "Remember Me",
     "login_btn": "Login",
     "spotlight_title": "Community Spotlight",
-    "spotlight_quote": "\"Trust starts with each of us.\" — Sarah J., Senior Auditor"
+    "spotlight_quote": "\"Trust starts with each of us.\" — Sarah J., Senior Auditor",
+    "no_account": "Don't have an account?",
+    "create_account_btn": "Create new account"
   },
   "MedicalDashboard": {
     "app_name": "Clinical Nexus",
