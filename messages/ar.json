@@ -431,5 +431,18 @@
     "password_label": "كلمة المرور",
     "signin_button": "دخول",
     "error_failed": "فشل تسجيل الدخول. يرجى التحقق من بياناتك."
+  },
+  "EmployeeSignup": {
+    "title": "إنشاء حساب جديد",
+    "desc": "انضم إلى مجتمع Clinical Atelier وابدأ رحلتك الصحية اليوم.",
+    "full_name_label": "الاسم الكامل",
+    "full_name_placeholder": "أدخل اسمك الثلاثي",
+    "email_label": "البريد الإلكتروني المهني",
+    "email_placeholder": "name@clinical.editorial.com",
+    "password_label": "كلمة المرور",
+    "confirm_password_label": "تأكيد كلمة المرور",
+    "signup_btn": "إنشاء الحساب",
+    "already_have_account": "لديك حساب بالفعل؟",
+    "login_link": "تسجيل الدخول"
   }
 }

@@ -431,5 +431,18 @@
     "password_label": "Password",
     "signin_button": "Sign In",
     "error_failed": "Authentication failed. Please check your credentials."
+  },
+  "EmployeeSignup": {
+    "title": "Create New Account",
+    "desc": "Join the Clinical Atelier community and start your wellness journey today.",
+    "full_name_label": "Full Name",
+    "full_name_placeholder": "Enter your full name",
+    "email_label": "Professional Email",
+    "email_placeholder": "name@clinical.editorial.com",
+    "password_label": "Password",
+    "confirm_password_label": "Confirm Password",
+    "signup_btn": "Create Account",
+    "already_have_account": "Already have an account?",
+    "login_link": "Sign In"
   }
 }

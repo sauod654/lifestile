@@ -149,7 +149,7 @@ export default function EmployeeLoginPage() {
 
               <div className="text-center pt-4 border-t border-outline-variant/10">
                 <p className="text-sm text-secondary mb-2">{t('no_account')}</p>
-                <Link href="/employee-dashboard" className="text-primary font-bold hover:underline inline-flex items-center gap-1">
+                <Link href="/employee-signup" className="text-primary font-bold hover:underline inline-flex items-center gap-1">
                   <span>{t('create_account_btn')}</span>
                   <span className="material-symbols-outlined text-sm">arrow_outward</span>
                 </Link>
