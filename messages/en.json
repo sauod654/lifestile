@@ -374,7 +374,13 @@
     "fat": "Fat",
     "carbs": "Carbs",
     "protein": "Protein",
-    "available": "Available"
+    "available": "Available",
+    "kcal": "kcal",
+    "min": "min",
+    "hr": "hr",
+    "mmhg": "mmHg",
+    "mgdl": "mg/dL",
+    "points": "Points"
   },
   "ClinicalWorkspace": {
     "title": "Clinical Workspace",

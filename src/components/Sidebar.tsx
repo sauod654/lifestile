@@ -14,6 +14,7 @@ export default function Sidebar({ role }: SidebarProps) {
   const locale = useLocale();
   const isRTL = locale === 'ar';
   const pathname = usePathname();
+  const router = useRouter();
 
   const menuItems = useMemo(() => {
     const roles: Record<string, any[]> = {
@@ -34,7 +35,7 @@ export default function Sidebar({ role }: SidebarProps) {
       employee: [
         { id: 'overview', label: t('employee_overview') || 'Wellness Overview', icon: 'dashboard', href: '/employee-dashboard' },
         { id: 'booking', label: t('book_appointment') || 'Book Appointment', icon: 'event_available', href: '/book-appointment' },
-        { id: 'vitals', label: t('medical_vitals') || 'Health Vitals', icon: 'monitor_heart', href: '/employee-dashboard#vitals' },
+        { id: 'vitals', label: t('medical_vitals') || 'Health Vitals', icon: 'monitor_heart', href: '#vitals' },
       ],
       supplier: [
         { id: 'dashboard', label: t('supplier_dashboard') || 'Inventory Hub', icon: 'dashboard', href: '/supplier-dashboard' },
@@ -45,8 +46,6 @@ export default function Sidebar({ role }: SidebarProps) {
     return roles[role] || [];
   }, [role, t]);
 
-  const router = useRouter();
-
   const handleLogout = async () => {
     await supabase.auth.signOut();
     router.push('/employee-login');
@@ -55,6 +54,20 @@ export default function Sidebar({ role }: SidebarProps) {
   const handleGenerateReport = () => {
     const msg = isRTL ? 'جاري تحضير التقرير الطبي الشامل... سيتم إرساله إلى بريدك الإلكتروني.' : 'Preparing comprehensive medical report... It will be sent to your email.';
     alert(msg);
+  };
+
+  const handleNavClick = (href: string) => {
+    if (href.startsWith('#')) {
+      const element = document.getElementById(href.substring(1));
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        // If not on the dashboard, navigate there first
+        router.push('/employee-dashboard' + href);
+      }
+    } else {
+      router.push(href as any);
+    }
   };
 
   return (
@@ -74,27 +87,12 @@ export default function Sidebar({ role }: SidebarProps) {
         {/* Navigation */}
         <nav className="flex-1 space-y-2">
           {menuItems.map((item) => {
-            const isHash = item.href.includes('#');
             const isActive = pathname === item.href;
-            
-            if (isHash) {
-              return (
-                <a
-                  key={item.id}
-                  href={item.href}
-                  className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 group text-slate-600 dark:text-slate-400 hover:bg-surface-container-high hover:translate-x-1 ${isRTL ? 'flex-row-reverse' : ''}`}
-                >
-                  <span className={`material-symbols-outlined`}>{item.icon}</span>
-                  <span className="font-manrope text-sm">{item.label}</span>
-                </a>
-              );
-            }
-
             return (
-              <Link
+              <button
                 key={item.id}
-                href={item.href as any}
-                className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 group ${
+                onClick={() => handleNavClick(item.href)}
+                className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 group ${
                   isActive 
                     ? 'bg-primary/10 text-primary font-bold translate-x-1' 
                     : 'text-slate-600 dark:text-slate-400 hover:bg-surface-container-high hover:translate-x-1'
@@ -102,7 +100,7 @@ export default function Sidebar({ role }: SidebarProps) {
               >
                 <span className={`material-symbols-outlined ${isActive ? 'fill-1' : ''}`}>{item.icon}</span>
                 <span className="font-manrope text-sm">{item.label}</span>
-              </Link>
+              </button>
             );
           })}
         </nav>

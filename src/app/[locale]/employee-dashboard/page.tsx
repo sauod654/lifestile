@@ -87,6 +87,13 @@ export default function EmployeeDashboardPage() {
   const targetLiters = 3;
   const percentage = Math.min((waterAmount / targetLiters) * 100, 100);
 
+  // Date formatting based on locale
+  const todayDate = new Date().toLocaleDateString(locale === 'ar' ? 'ar-SA' : 'en-US', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric'
+  });
+
   return (
     <DashboardLayout role="employee">
       <div className="space-y-12 pb-12">
@@ -100,7 +107,7 @@ export default function EmployeeDashboardPage() {
           </div>
           <div className="bg-surface-container-high px-8 py-4 rounded-[2rem] shadow-sm flex flex-col items-center">
             <p className="text-[10px] font-black text-outline uppercase tracking-[0.2em] mb-1">{t('today')}</p>
-            <p className="font-headline font-black text-primary text-xl">24 Oct, 2023</p>
+            <p className="font-headline font-black text-primary text-xl">{todayDate}</p>
           </div>
         </header>
 
@@ -141,7 +148,7 @@ export default function EmployeeDashboardPage() {
                 <div className="space-y-3">
                   <div className={`flex justify-between text-sm font-black uppercase tracking-widest ${isRtl ? 'flex-row-reverse' : ''}`}>
                     <span className="text-primary">{t('movement')}</span>
-                    <span className="text-on-surface/60">450 / 600 <span className="text-[10px]">kcal</span></span>
+                    <span className="text-on-surface/60">450 / 600 <span className="text-[10px]">{t('kcal')}</span></span>
                   </div>
                   <div className="w-full bg-primary/5 h-3 rounded-full overflow-hidden">
                     <div className="signature-gradient h-full w-3/4 rounded-full"></div>
@@ -150,7 +157,7 @@ export default function EmployeeDashboardPage() {
                 <div className="space-y-3">
                   <div className={`flex justify-between text-sm font-black uppercase tracking-widest ${isRtl ? 'flex-row-reverse' : ''}`}>
                     <span className="text-tertiary">{t('exercise')}</span>
-                    <span className="text-on-surface/60">22 / 30 <span className="text-[10px]">min</span></span>
+                    <span className="text-on-surface/60">22 / 30 <span className="text-[10px]">{t('min')}</span></span>
                   </div>
                   <div className="w-full bg-tertiary/5 h-3 rounded-full overflow-hidden">
                     <div className="bg-tertiary h-full w-2/3 rounded-full"></div>
@@ -159,7 +166,7 @@ export default function EmployeeDashboardPage() {
                 <div className="space-y-3">
                   <div className={`flex justify-between text-sm font-black uppercase tracking-widest ${isRtl ? 'flex-row-reverse' : ''}`}>
                     <span className="text-secondary">{t('stand')}</span>
-                    <span className="text-on-surface/60">6 / 12 <span className="text-[10px]">hr</span></span>
+                    <span className="text-on-surface/60">6 / 12 <span className="text-[10px]">{t('hr')}</span></span>
                   </div>
                   <div className="w-full bg-secondary/5 h-3 rounded-full overflow-hidden">
                     <div className="bg-secondary h-full w-1/2 rounded-full"></div>
@@ -282,7 +289,7 @@ export default function EmployeeDashboardPage() {
                   </div>
                   <div className="text-start">
                     <p className="text-[10px] font-black text-outline uppercase tracking-widest mb-1">{t('bp')}</p>
-                    <p className="text-2xl font-black text-primary tracking-tight">118/76 <span className="text-sm font-bold opacity-40 uppercase">mmHg</span></p>
+                    <p className="text-2xl font-black text-primary tracking-tight">118/76 <span className="text-sm font-bold opacity-40 uppercase">{t('mmhg')}</span></p>
                   </div>
                 </div>
                 <div className="text-right">
@@ -296,7 +303,7 @@ export default function EmployeeDashboardPage() {
                   </div>
                   <div className="text-start">
                     <p className="text-[10px] font-black text-outline uppercase tracking-widest mb-1">{t('glucose')}</p>
-                    <p className="text-2xl font-black text-primary tracking-tight">94 <span className="text-sm font-bold opacity-40 uppercase">mg/dL</span></p>
+                    <p className="text-2xl font-black text-primary tracking-tight">94 <span className="text-sm font-bold opacity-40 uppercase">{t('mgdl')}</span></p>
                   </div>
                 </div>
                 <div className="text-right">
@@ -310,7 +317,7 @@ export default function EmployeeDashboardPage() {
                   </div>
                   <div className="text-start">
                     <p className="text-[10px] font-black text-outline uppercase tracking-widest mb-1">{t('bmi')}</p>
-                    <p className="text-2xl font-black text-primary tracking-tight">24.2 <span className="text-sm font-bold opacity-40 uppercase">Points</span></p>
+                    <p className="text-2xl font-black text-primary tracking-tight">24.2 <span className="text-sm font-bold opacity-40 uppercase">{t('points')}</span></p>
                   </div>
                 </div>
                 <div className="text-right">
@@ -319,12 +326,15 @@ export default function EmployeeDashboardPage() {
               </div>
             </div>
             
-            <Link href="/book-appointment" className="w-full mt-10 py-5 bg-primary/5 text-primary font-black rounded-3xl flex items-center justify-center gap-3 hover:bg-primary hover:text-white transition-all group uppercase tracking-widest text-xs">
+            <button 
+              onClick={() => alert(isRtl ? 'سيتم تفعيل سجل البيانات الكامل قريباً في التحديث القادم.' : 'Full data history will be enabled soon in the next update.')}
+              className="w-full mt-10 py-5 bg-primary/5 text-primary font-black rounded-3xl flex items-center justify-center gap-3 hover:bg-primary hover:text-white transition-all group uppercase tracking-widest text-xs"
+            >
               <span>{t('view_full_history')}</span>
               <span className={`material-symbols-outlined text-xl transition-transform ${isRtl ? 'group-hover:-translate-x-2' : 'group-hover:translate-x-2'}`}>
                 {isRtl ? 'arrow_back' : 'arrow_forward'}
               </span>
-            </Link>
+            </button>
           </div>
         </div>
 
