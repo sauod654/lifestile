@@ -35,7 +35,9 @@ export default function Sidebar({ role }: SidebarProps) {
       employee: [
         { id: 'overview', label: t('employee_overview') || 'Wellness Overview', icon: 'dashboard', href: '/employee-dashboard' },
         { id: 'booking', label: t('book_appointment') || 'Book Appointment', icon: 'event_available', href: '/book-appointment' },
-        { id: 'vitals', label: t('medical_vitals') || 'Health Vitals', icon: 'monitor_heart', href: '#vitals' },
+        { id: 'vitals', label: t('medical_vitals') || 'Health Vitals', icon: 'monitor_heart', href: '/vitals-history' },
+        { id: 'reports', label: t('generate_report') || 'Health Reports', icon: 'description', href: '/generate-report' },
+        { id: 'support', label: 'مركز المساعدة', icon: 'contact_support', href: '/support' },
       ],
       supplier: [
         { id: 'dashboard', label: t('supplier_dashboard') || 'Inventory Hub', icon: 'dashboard', href: '/supplier-dashboard' },
@@ -49,25 +51,6 @@ export default function Sidebar({ role }: SidebarProps) {
   const handleLogout = async () => {
     await supabase.auth.signOut();
     router.push('/employee-login');
-  };
-
-  const handleGenerateReport = () => {
-    const msg = isRTL ? 'جاري تحضير التقرير الطبي الشامل... سيتم إرساله إلى بريدك الإلكتروني.' : 'Preparing comprehensive medical report... It will be sent to your email.';
-    alert(msg);
-  };
-
-  const handleNavClick = (href: string) => {
-    if (href.startsWith('#')) {
-      const element = document.getElementById(href.substring(1));
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-      } else {
-        // If not on the dashboard, navigate there first
-        router.push('/employee-dashboard' + href);
-      }
-    } else {
-      router.push(href as any);
-    }
   };
 
   return (
@@ -89,10 +72,10 @@ export default function Sidebar({ role }: SidebarProps) {
           {menuItems.map((item) => {
             const isActive = pathname === item.href;
             return (
-              <button
+              <Link
                 key={item.id}
-                onClick={() => handleNavClick(item.href)}
-                className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 group ${
+                href={item.href as any}
+                className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 group ${
                   isActive 
                     ? 'bg-primary/10 text-primary font-bold translate-x-1' 
                     : 'text-slate-600 dark:text-slate-400 hover:bg-surface-container-high hover:translate-x-1'
@@ -100,19 +83,19 @@ export default function Sidebar({ role }: SidebarProps) {
               >
                 <span className={`material-symbols-outlined ${isActive ? 'fill-1' : ''}`}>{item.icon}</span>
                 <span className="font-manrope text-sm">{item.label}</span>
-              </button>
+              </Link>
             );
           })}
         </nav>
 
         {/* Footer Actions */}
         <div className="pt-6 border-t border-outline-variant/10 space-y-4">
-          <button 
-            onClick={handleGenerateReport}
-            className="w-full bg-primary text-on-primary py-3 px-4 rounded-xl font-bold text-xs uppercase tracking-widest shadow-lg shadow-primary/20 hover:bg-primary-container transition-all active:scale-95"
+          <Link 
+            href="/generate-report"
+            className="w-full bg-primary text-on-primary py-3 px-4 rounded-xl font-bold text-xs uppercase tracking-widest shadow-lg shadow-primary/20 hover:bg-primary-container transition-all active:scale-95 flex items-center justify-center"
           >
             {t('generate_report')}
-          </button>
+          </Link>
           <div className="space-y-1">
              <Link href="/settings" className={`flex items-center gap-3 px-4 py-2 text-slate-500 hover:text-primary transition-colors text-xs font-medium ${isRTL ? 'flex-row-reverse' : ''}`}>
               <span className="material-symbols-outlined text-sm">settings</span>

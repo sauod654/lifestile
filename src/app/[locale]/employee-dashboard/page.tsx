@@ -326,15 +326,15 @@ export default function EmployeeDashboardPage() {
               </div>
             </div>
             
-            <button 
-              onClick={() => alert(isRtl ? 'سيتم تفعيل سجل البيانات الكامل قريباً في التحديث القادم.' : 'Full data history will be enabled soon in the next update.')}
+            <Link 
+              href="/vitals-history"
               className="w-full mt-10 py-5 bg-primary/5 text-primary font-black rounded-3xl flex items-center justify-center gap-3 hover:bg-primary hover:text-white transition-all group uppercase tracking-widest text-xs"
             >
               <span>{t('view_full_history')}</span>
               <span className={`material-symbols-outlined text-xl transition-transform ${isRtl ? 'group-hover:-translate-x-2' : 'group-hover:translate-x-2'}`}>
                 {isRtl ? 'arrow_back' : 'arrow_forward'}
               </span>
-            </button>
+            </Link>
           </div>
         </div>
 

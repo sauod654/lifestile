@@ -18,9 +18,7 @@ export default function BookAppointmentPage() {
   const [selectedDayIdx, setSelectedDayIdx] = useState<number | null>(null);
   const [isSuccess, setIsSuccess] = useState(false);
 
-  const handleSupport = () => {
-    alert(isRtl ? 'فريق الكونسيرج سيتواصل معك عبر البريد الإلكتروني في خلال 5 دقائق.' : 'The concierge team will contact you via email within 5 minutes.');
-  };
+
 
   if (isSuccess) {
     return (
@@ -278,12 +276,12 @@ export default function BookAppointmentPage() {
               <p className="text-sm text-secondary">{t('concierge_help')}</p>
             </div>
           </div>
-          <button 
-            onClick={handleSupport}
+          <Link 
+            href="/support"
             className="bg-white text-primary px-8 py-3 rounded-xl font-bold shadow-sm border border-outline-variant/10 hover:bg-primary hover:text-white transition-all"
           >
             {t('talk_support')}
-          </button>
+          </Link>
         </footer>
       </div>
     </DashboardLayout>

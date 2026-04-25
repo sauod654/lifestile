@@ -382,6 +382,101 @@
     "mgdl": "mg/dL",
     "points": "Points"
   },
+  "Notifications": {
+    "title": "Notifications",
+    "subtitle": "Live Updates",
+    "mark_all_read": "Mark all as read",
+    "filters": {
+      "all": "All",
+      "health": "Health Alerts",
+      "system": "System",
+      "rewards": "Rewards"
+    },
+    "categories": {
+      "health": "Health Alerts",
+      "system": "System Updates",
+      "rewards": "Rewards & Milestones"
+    },
+    "items": {
+      "critical_vitals": "Critical Vitals Update",
+      "critical_desc": "Patient in Ward 4B showing irregular sinus rhythm. Immediate review requested.",
+      "supply": "Supply Replenishment",
+      "supply_desc": "New shipment of Pfizer-BioNTech arrived. Please update inventory logs.",
+      "maintenance": "Maintenance Scheduled",
+      "maintenance_desc": "The portal will be offline for security patches tonight from 02:00 to 04:00 AM.",
+      "elite": "Elite Performance",
+      "elite_desc": "Congratulations! You've reached a 100% precision score in clinical documentation this month.",
+      "claim": "CLAIM BONUS"
+    }
+  },
+  "VitalsHistory": {
+    "title": "Vitals History",
+    "latest_assessment": "Latest Assessment",
+    "optimal_range": "Optimal Blood Pressure range maintained",
+    "metrics": {
+      "bp": "Blood Pressure",
+      "sugar": "Sugar Levels",
+      "bmi": "BMI Index"
+    },
+    "weekly_trend": "Weekly Trend",
+    "last_7_points": "Last 7 assessment points",
+    "log_title": "Chronological Log",
+    "view_all": "View All",
+    "checkups": {
+      "morning": "Morning Checkup",
+      "evening": "Evening Sync",
+      "clinical": "Clinical Review"
+    },
+    "today": "Today",
+    "yesterday": "Yesterday"
+  },
+  "Reports": {
+    "title": "Health Reports",
+    "subtitle": "Self-Service",
+    "description": "Generate medical-grade summaries of your clinical data. Your information is encrypted and follows HIPAA compliance standards.",
+    "interval": "Time Interval",
+    "last_30": "Last 30 Days",
+    "custom": "Custom",
+    "start_date": "Start Date",
+    "end_date": "End Date",
+    "include_data": "Include Data",
+    "select_all": "Select All",
+    "types": {
+      "vitals": "Vitals",
+      "vitals_sub": "BPM, BP, SpO2",
+      "activity": "Activity",
+      "activity_sub": "Steps, Cal, Active Min",
+      "hydration": "Hydration",
+      "sleep": "Sleep",
+      "nutrition": "Nutrition"
+    },
+    "format": "Export Format",
+    "pdf": "PDF Document",
+    "csv": "CSV Data",
+    "generate": "Generate Secure Report",
+    "encrypted": "End-to-End Encrypted"
+  },
+  "Support": {
+    "title": "Support Center",
+    "subtitle": "How can we assist your clinical practice today?",
+    "channels": {
+      "chat": "Clinical Support Chat",
+      "chat_sub": "Live assistance for medical staff",
+      "start_chat": "Start Chat",
+      "ticket": "Open Ticket",
+      "ticket_sub": "For complex inquiries",
+      "call": "Call Line",
+      "call_sub": "Emergency medical help"
+    },
+    "faq_title": "Frequent Questions",
+    "browse_all": "Browse all",
+    "faqs": [
+      "Updating medical credentials?",
+      "Submitting clinical reports",
+      "Accessing patient vitals history"
+    ],
+    "footer": "Carefully designed for Clinical Excellence"
+  },
   "ClinicalWorkspace": {
     "title": "Clinical Workspace",
     "subtitle": "Precision Care Unit",

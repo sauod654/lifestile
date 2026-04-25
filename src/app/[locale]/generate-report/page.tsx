@@ -1,0 +1,147 @@
+'use client';
+
+import { useTranslations, useLocale } from 'next-intl';
+import DashboardLayout from '@/components/DashboardLayout';
+import { useState } from 'react';
+
+export default function GenerateReportPage() {
+  const t = useTranslations('Reports');
+  const locale = useLocale();
+  const isRtl = locale === 'ar';
+
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setTimeout(() => {
+      alert(isRtl ? 'تم إنشاء التقرير بنجاح! سيصلك بريد إلكتروني قريباً.' : 'Report generated successfully! You will receive an email shortly.');
+      setLoading(false);
+    }, 2000);
+  };
+
+  return (
+    <DashboardLayout role="employee">
+      <main className="pb-32 px-5 max-w-4xl mx-auto w-full">
+        {/* Editorial Header */}
+        <section className="mb-12 mt-8 text-start">
+          <span className="text-primary font-black tracking-[0.3em] text-[10px] uppercase block mb-3">{t('subtitle')}</span>
+          <h2 className="font-headline text-7xl font-black text-primary leading-none tracking-tighter uppercase">{t('title')}</h2>
+          <p className="text-secondary text-xl font-medium mt-6 leading-relaxed max-w-2xl opacity-80">
+            {t('description')}
+          </p>
+        </section>
+
+        <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-12">
+          {/* Left Column: Config */}
+          <div className="space-y-12">
+            {/* Date Range Section */}
+            <div className="space-y-6">
+              <h3 className={`font-headline text-2xl font-black text-primary tracking-tight text-start uppercase`}>{t('interval')}</h3>
+              <div className={`grid grid-cols-2 gap-4 ${isRtl ? 'flex-row-reverse' : ''}`}>
+                <button type="button" className="bg-surface-container-high p-6 rounded-[2rem] text-start border-2 border-transparent hover:border-primary transition-all group">
+                  <span className="block text-[10px] uppercase tracking-widest text-secondary font-black mb-2 opacity-60">{isRtl ? 'آخر' : 'LAST'}</span>
+                  <span className="text-primary font-black text-xl leading-none">{t('last_30')}</span>
+                </button>
+                <button type="button" className="bg-white p-6 rounded-[2rem] text-start border-2 border-primary shadow-xl shadow-primary/10 transition-all">
+                  <span className="block text-[10px] uppercase tracking-widest text-primary font-black mb-2">{t('custom')}</span>
+                  <span className="text-primary font-black text-xl leading-none">{isRtl ? 'نطاق زمني' : 'Range'}</span>
+                </button>
+              </div>
+              <div className="bg-surface-container-low p-8 rounded-[2.5rem] space-y-6">
+                <div className="flex flex-col gap-2 text-start">
+                  <label className="text-[10px] uppercase font-black text-outline tracking-widest ml-1">{t('start_date')}</label>
+                  <input className="w-full bg-white border-none rounded-2xl focus:ring-2 focus:ring-primary text-primary p-4 font-bold shadow-sm" type="date" defaultValue="2023-10-01"/>
+                </div>
+                <div className="flex flex-col gap-2 text-start">
+                  <label className="text-[10px] uppercase font-black text-outline tracking-widest ml-1">{t('end_date')}</label>
+                  <input className="w-full bg-white border-none rounded-2xl focus:ring-2 focus:ring-primary text-primary p-4 font-bold shadow-sm" type="date" defaultValue="2023-10-31"/>
+                </div>
+              </div>
+            </div>
+
+            {/* Export Format */}
+            <div className="space-y-6">
+              <h3 className="font-headline text-2xl font-black text-primary tracking-tight text-start uppercase">{t('format')}</h3>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <label className="flex-1 cursor-pointer group">
+                  <input defaultChecked name="format" type="radio" value="pdf" className="hidden peer" />
+                  <div className="peer-checked:bg-primary peer-checked:text-white bg-surface-container-low p-6 rounded-[2rem] flex items-center gap-4 transition-all hover:bg-surface-container-high peer-checked:shadow-xl peer-checked:shadow-primary/20">
+                    <span className="material-symbols-outlined text-3xl">picture_as_pdf</span>
+                    <span className="font-black text-sm uppercase tracking-widest">{t('pdf')}</span>
+                  </div>
+                </label>
+                <label className="flex-1 cursor-pointer group">
+                  <input name="format" type="radio" value="csv" className="hidden peer" />
+                  <div className="peer-checked:bg-primary peer-checked:text-white bg-surface-container-low p-6 rounded-[2rem] flex items-center gap-4 transition-all hover:bg-surface-container-high peer-checked:shadow-xl peer-checked:shadow-primary/20">
+                    <span className="material-symbols-outlined text-3xl">table_chart</span>
+                    <span className="font-black text-sm uppercase tracking-widest">{t('csv')}</span>
+                  </div>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Column: Data Types */}
+          <div className="space-y-12">
+            <div className="space-y-6">
+              <div className={`flex justify-between items-end ${isRtl ? 'flex-row-reverse' : ''}`}>
+                <h3 className="font-headline text-2xl font-black text-primary tracking-tight uppercase">{t('include_data')}</h3>
+                <button type="button" className="text-[10px] font-black text-primary hover:underline uppercase tracking-widest">{t('select_all')}</button>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                {/* Vitals */}
+                <div className="bg-white p-8 rounded-[2.5rem] shadow-xl shadow-primary/5 border-2 border-primary relative group cursor-pointer transition-all hover:scale-[1.02]">
+                  <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center mb-10 text-primary">
+                    <span className="material-symbols-outlined text-2xl" style={{fontVariationSettings: "'FILL' 1"}}>monitor_heart</span>
+                  </div>
+                  <div className="text-start">
+                    <p className="font-black text-xl text-primary tracking-tight">{t('types.vitals')}</p>
+                    <p className="text-[10px] text-outline font-bold leading-tight mt-1 uppercase tracking-widest">{t('types.vitals_sub')}</p>
+                  </div>
+                  <span className={`absolute top-6 right-6 material-symbols-outlined text-primary text-3xl ${isRtl ? 'right-auto left-6' : ''}`}>check_circle</span>
+                </div>
+                {/* Activity */}
+                <div className="bg-surface-container-low p-8 rounded-[2.5rem] transition-all hover:bg-surface-container-high cursor-pointer group hover:scale-[1.02]">
+                  <div className="w-12 h-12 bg-secondary/10 rounded-2xl flex items-center justify-center mb-10 text-secondary">
+                    <span className="material-symbols-outlined text-2xl">directions_run</span>
+                  </div>
+                  <div className="text-start">
+                    <p className="font-black text-xl text-primary tracking-tight">{t('types.activity')}</p>
+                    <p className="text-[10px] text-outline font-bold leading-tight mt-1 uppercase tracking-widest">{t('types.activity_sub')}</p>
+                  </div>
+                </div>
+                
+                {/* Smaller Bento Items */}
+                <div className="bg-surface-container-low p-6 rounded-[2rem] flex flex-col items-center justify-center text-center group cursor-pointer hover:bg-surface-container-high transition-all">
+                  <span className="material-symbols-outlined text-secondary text-3xl mb-3">water_drop</span>
+                  <p className="text-[10px] font-black text-primary uppercase tracking-widest">{t('types.hydration')}</p>
+                </div>
+                <div className="bg-surface-container-low p-6 rounded-[2rem] flex flex-col items-center justify-center text-center group cursor-pointer hover:bg-surface-container-high transition-all">
+                  <span className="material-symbols-outlined text-secondary text-3xl mb-3">bedtime</span>
+                  <p className="text-[10px] font-black text-primary uppercase tracking-widest">{t('types.sleep')}</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Action Button Container */}
+            <div className="pt-8">
+              <button 
+                disabled={loading}
+                type="submit" 
+                className="w-full primary-gradient-glow text-white py-6 rounded-[2rem] font-black text-xl flex items-center justify-center gap-4 active:scale-[0.98] transition-all disabled:opacity-50 uppercase tracking-tight"
+              >
+                <span>{loading ? (isRtl ? 'جاري المعالجة...' : 'PROCESSING...') : t('generate')}</span>
+                <span className={`material-symbols-outlined text-3xl ${isRtl ? 'rotate-180' : ''}`}>arrow_forward</span>
+              </button>
+              <div className="flex items-center justify-center gap-2 mt-6 opacity-40">
+                <span className="material-symbols-outlined text-sm">lock</span>
+                <p className="text-[10px] text-secondary font-black uppercase tracking-[0.2em]">{t('encrypted')}</p>
+              </div>
+            </div>
+          </div>
+        </form>
+      </main>
+    </DashboardLayout>
+  );
+}
