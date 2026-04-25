@@ -92,13 +92,13 @@ export default function PermissionsMatrixPage() {
         {/* Matrix Controls */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="bg-surface-container-low rounded-[2rem] p-8 border border-outline-variant/10">
-            <h3 className="text-xl font-bold text-primary mb-6">{t('quick_permissions')}</h3>
+            <h3 className="text-xl font-bold text-primary mb-6">{tMatrix('quick_permissions')}</h3>
             <p className="text-sm text-secondary mb-8 leading-relaxed">
               Updates to the matrix are effective immediately for all active sessions. Security logs will capture all modification events for auditing.
             </p>
             <div className="flex gap-4">
               <button className="flex-1 py-4 bg-primary text-white font-black rounded-xl shadow-lg hover:brightness-110 active:scale-[0.98] transition-all">
-                {t('update_permissions')}
+                {tMatrix('update_permissions')}
               </button>
               <button className="flex-1 py-4 bg-surface-container-highest text-primary font-bold rounded-xl hover:bg-white transition-all shadow-sm">
                 {tMatrix('reset_defaults')}
