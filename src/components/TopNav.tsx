@@ -50,6 +50,11 @@ export default function TopNav({ role = 'medical', userName }: TopNavProps) {
             className={`bg-surface-container-high border-none rounded-full ${isRTL ? 'pr-10 pl-4' : 'pl-10 pr-4'} py-1.5 text-sm w-64 focus:ring-2 focus:ring-primary/20 placeholder:text-outline text-on-surface outline-none`}
             placeholder={t('search_placeholder')}
             type="text"
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                alert(isRTL ? 'البحث غير متوفر حالياً' : 'Search is currently unavailable');
+              }
+            }}
           />
         </div>
       </div>

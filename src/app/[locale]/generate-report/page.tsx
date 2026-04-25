@@ -2,22 +2,51 @@
 
 import { useTranslations, useLocale } from 'next-intl';
 import DashboardLayout from '@/components/DashboardLayout';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useRouter } from '@/i18n/routing';
 
 export default function GenerateReportPage() {
   const t = useTranslations('Reports');
   const locale = useLocale();
   const isRtl = locale === 'ar';
+  const router = useRouter();
 
   const [loading, setLoading] = useState(false);
+  const [intervalType, setIntervalType] = useState<'last_30' | 'custom'>('last_30');
+  const [selectedTypes, setSelectedTypes] = useState<string[]>(['vitals']);
+  
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
+
+  useEffect(() => {
+    const today = new Date();
+    const todayStr = today.toISOString().split('T')[0];
+    
+    setEndDate(todayStr);
+    setStartDate(todayStr);
+  }, []);
+
+  const toggleType = (type: string) => {
+    setSelectedTypes(prev => 
+      prev.includes(type) ? prev.filter(t => t !== type) : [...prev, type]
+    );
+  };
+
+  const handleSelectAll = () => {
+    if (selectedTypes.length === 4) {
+      setSelectedTypes([]);
+    } else {
+      setSelectedTypes(['vitals', 'activity', 'hydration', 'sleep']);
+    }
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setTimeout(() => {
-      alert(isRtl ? 'تم إنشاء التقرير بنجاح! سيصلك بريد إلكتروني قريباً.' : 'Report generated successfully! You will receive an email shortly.');
       setLoading(false);
-    }, 2000);
+      router.push('/generate-report/success');
+    }, 1500);
   };
 
   return (
@@ -39,23 +68,31 @@ export default function GenerateReportPage() {
             <div className="space-y-6">
               <h3 className={`font-headline text-2xl font-black text-primary tracking-tight text-start uppercase`}>{t('interval')}</h3>
               <div className={`grid grid-cols-2 gap-4 ${isRtl ? 'flex-row-reverse' : ''}`}>
-                <button type="button" className="bg-surface-container-high p-6 rounded-[2rem] text-start border-2 border-transparent hover:border-primary transition-all group">
-                  <span className="block text-[10px] uppercase tracking-widest text-secondary font-black mb-2 opacity-60">{isRtl ? 'آخر' : 'LAST'}</span>
+                <button 
+                  type="button" 
+                  onClick={() => setIntervalType('last_30')}
+                  className={`p-6 rounded-[2rem] text-start border-2 transition-all group ${intervalType === 'last_30' ? 'bg-white border-primary shadow-xl shadow-primary/10' : 'bg-surface-container-high border-transparent hover:border-primary/50'}`}
+                >
+                  <span className={`block text-[10px] uppercase tracking-widest font-black mb-2 ${intervalType === 'last_30' ? 'text-primary' : 'text-secondary opacity-60'}`}>{isRtl ? 'آخر' : 'LAST'}</span>
                   <span className="text-primary font-black text-xl leading-none">{t('last_30')}</span>
                 </button>
-                <button type="button" className="bg-white p-6 rounded-[2rem] text-start border-2 border-primary shadow-xl shadow-primary/10 transition-all">
-                  <span className="block text-[10px] uppercase tracking-widest text-primary font-black mb-2">{t('custom')}</span>
+                <button 
+                  type="button" 
+                  onClick={() => setIntervalType('custom')}
+                  className={`p-6 rounded-[2rem] text-start border-2 transition-all ${intervalType === 'custom' ? 'bg-white border-primary shadow-xl shadow-primary/10' : 'bg-surface-container-high border-transparent hover:border-primary/50'}`}
+                >
+                  <span className={`block text-[10px] uppercase tracking-widest font-black mb-2 ${intervalType === 'custom' ? 'text-primary' : 'text-secondary opacity-60'}`}>{t('custom')}</span>
                   <span className="text-primary font-black text-xl leading-none">{isRtl ? 'نطاق زمني' : 'Range'}</span>
                 </button>
               </div>
-              <div className="bg-surface-container-low p-8 rounded-[2.5rem] space-y-6">
+              <div className={`bg-surface-container-low p-8 rounded-[2.5rem] space-y-6 transition-all ${intervalType === 'custom' ? 'opacity-100' : 'opacity-50 pointer-events-none'}`}>
                 <div className="flex flex-col gap-2 text-start">
                   <label className="text-[10px] uppercase font-black text-outline tracking-widest ml-1">{t('start_date')}</label>
-                  <input className="w-full bg-white border-none rounded-2xl focus:ring-2 focus:ring-primary text-primary p-4 font-bold shadow-sm" type="date" defaultValue="2023-10-01"/>
+                  <input className="w-full bg-white border-none rounded-2xl focus:ring-2 focus:ring-primary text-primary p-4 font-bold shadow-sm" type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} disabled={intervalType !== 'custom'}/>
                 </div>
                 <div className="flex flex-col gap-2 text-start">
                   <label className="text-[10px] uppercase font-black text-outline tracking-widest ml-1">{t('end_date')}</label>
-                  <input className="w-full bg-white border-none rounded-2xl focus:ring-2 focus:ring-primary text-primary p-4 font-bold shadow-sm" type="date" defaultValue="2023-10-31"/>
+                  <input className="w-full bg-white border-none rounded-2xl focus:ring-2 focus:ring-primary text-primary p-4 font-bold shadow-sm" type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} disabled={intervalType !== 'custom'}/>
                 </div>
               </div>
             </div>
@@ -87,38 +124,39 @@ export default function GenerateReportPage() {
             <div className="space-y-6">
               <div className={`flex justify-between items-end ${isRtl ? 'flex-row-reverse' : ''}`}>
                 <h3 className="font-headline text-2xl font-black text-primary tracking-tight uppercase">{t('include_data')}</h3>
-                <button type="button" className="text-[10px] font-black text-primary hover:underline uppercase tracking-widest">{t('select_all')}</button>
+                <button type="button" onClick={handleSelectAll} className="text-[10px] font-black text-primary hover:underline uppercase tracking-widest">{t('select_all')}</button>
               </div>
               <div className="grid grid-cols-2 gap-4">
                 {/* Vitals */}
-                <div className="bg-white p-8 rounded-[2.5rem] shadow-xl shadow-primary/5 border-2 border-primary relative group cursor-pointer transition-all hover:scale-[1.02]">
-                  <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center mb-10 text-primary">
+                <div onClick={() => toggleType('vitals')} className={`p-8 rounded-[2.5rem] relative group cursor-pointer transition-all hover:scale-[1.02] ${selectedTypes.includes('vitals') ? 'bg-white shadow-xl shadow-primary/5 border-2 border-primary' : 'bg-surface-container-low border-2 border-transparent hover:bg-surface-container-high'}`}>
+                  <div className={`w-12 h-12 rounded-2xl flex items-center justify-center mb-10 ${selectedTypes.includes('vitals') ? 'bg-primary/10 text-primary' : 'bg-secondary/10 text-secondary'}`}>
                     <span className="material-symbols-outlined text-2xl" style={{fontVariationSettings: "'FILL' 1"}}>monitor_heart</span>
                   </div>
                   <div className="text-start">
                     <p className="font-black text-xl text-primary tracking-tight">{t('types.vitals')}</p>
                     <p className="text-[10px] text-outline font-bold leading-tight mt-1 uppercase tracking-widest">{t('types.vitals_sub')}</p>
                   </div>
-                  <span className={`absolute top-6 right-6 material-symbols-outlined text-primary text-3xl ${isRtl ? 'right-auto left-6' : ''}`}>check_circle</span>
+                  {selectedTypes.includes('vitals') && <span className={`absolute top-6 right-6 material-symbols-outlined text-primary text-3xl ${isRtl ? 'right-auto left-6' : ''}`}>check_circle</span>}
                 </div>
                 {/* Activity */}
-                <div className="bg-surface-container-low p-8 rounded-[2.5rem] transition-all hover:bg-surface-container-high cursor-pointer group hover:scale-[1.02]">
-                  <div className="w-12 h-12 bg-secondary/10 rounded-2xl flex items-center justify-center mb-10 text-secondary">
+                <div onClick={() => toggleType('activity')} className={`p-8 rounded-[2.5rem] relative transition-all cursor-pointer group hover:scale-[1.02] ${selectedTypes.includes('activity') ? 'bg-white shadow-xl shadow-primary/5 border-2 border-primary' : 'bg-surface-container-low border-2 border-transparent hover:bg-surface-container-high'}`}>
+                  <div className={`w-12 h-12 rounded-2xl flex items-center justify-center mb-10 ${selectedTypes.includes('activity') ? 'bg-primary/10 text-primary' : 'bg-secondary/10 text-secondary'}`}>
                     <span className="material-symbols-outlined text-2xl">directions_run</span>
                   </div>
                   <div className="text-start">
                     <p className="font-black text-xl text-primary tracking-tight">{t('types.activity')}</p>
                     <p className="text-[10px] text-outline font-bold leading-tight mt-1 uppercase tracking-widest">{t('types.activity_sub')}</p>
                   </div>
+                  {selectedTypes.includes('activity') && <span className={`absolute top-6 right-6 material-symbols-outlined text-primary text-3xl ${isRtl ? 'right-auto left-6' : ''}`}>check_circle</span>}
                 </div>
                 
                 {/* Smaller Bento Items */}
-                <div className="bg-surface-container-low p-6 rounded-[2rem] flex flex-col items-center justify-center text-center group cursor-pointer hover:bg-surface-container-high transition-all">
-                  <span className="material-symbols-outlined text-secondary text-3xl mb-3">water_drop</span>
+                <div onClick={() => toggleType('hydration')} className={`p-6 rounded-[2rem] flex flex-col items-center justify-center text-center group cursor-pointer transition-all border-2 ${selectedTypes.includes('hydration') ? 'bg-white border-primary shadow-lg' : 'bg-surface-container-low border-transparent hover:bg-surface-container-high'}`}>
+                  <span className={`material-symbols-outlined text-3xl mb-3 ${selectedTypes.includes('hydration') ? 'text-primary' : 'text-secondary'}`}>water_drop</span>
                   <p className="text-[10px] font-black text-primary uppercase tracking-widest">{t('types.hydration')}</p>
                 </div>
-                <div className="bg-surface-container-low p-6 rounded-[2rem] flex flex-col items-center justify-center text-center group cursor-pointer hover:bg-surface-container-high transition-all">
-                  <span className="material-symbols-outlined text-secondary text-3xl mb-3">bedtime</span>
+                <div onClick={() => toggleType('sleep')} className={`p-6 rounded-[2rem] flex flex-col items-center justify-center text-center group cursor-pointer transition-all border-2 ${selectedTypes.includes('sleep') ? 'bg-white border-primary shadow-lg' : 'bg-surface-container-low border-transparent hover:bg-surface-container-high'}`}>
+                  <span className={`material-symbols-outlined text-3xl mb-3 ${selectedTypes.includes('sleep') ? 'text-primary' : 'text-secondary'}`}>bedtime</span>
                   <p className="text-[10px] font-black text-primary uppercase tracking-widest">{t('types.sleep')}</p>
                 </div>
               </div>

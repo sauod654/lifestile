@@ -2,11 +2,14 @@
 
 import { useTranslations, useLocale } from 'next-intl';
 import DashboardLayout from '@/components/DashboardLayout';
+import { useState } from 'react';
 
 export default function NotificationsPage() {
   const t = useTranslations('Notifications');
   const locale = useLocale();
   const isRtl = locale === 'ar';
+
+  const [activeFilter, setActiveFilter] = useState('all');
 
   return (
     <DashboardLayout role="employee">
@@ -18,18 +21,28 @@ export default function NotificationsPage() {
               <span className="text-primary text-[10px] font-black uppercase tracking-[0.2em] mb-2 block">{t('subtitle')}</span>
               <h1 className="text-6xl font-black text-primary tracking-tighter leading-none font-headline uppercase">{t('title')}</h1>
             </div>
-            <button className="text-primary font-bold text-xs py-3 px-6 bg-primary/5 rounded-2xl hover:bg-primary/10 transition-colors uppercase tracking-widest">
+            <button 
+              onClick={() => alert(isRtl ? 'تم تحديد كل التنبيهات كمقروءة' : 'All notifications marked as read')}
+              className="text-primary font-bold text-xs py-3 px-6 bg-primary/5 rounded-2xl hover:bg-primary/10 transition-colors uppercase tracking-widest"
+            >
               {t('mark_all_read')}
             </button>
           </div>
           
           {/* Filter Chips */}
           <div className={`flex flex-wrap gap-3 pb-2 scrollbar-hide ${isRtl ? 'flex-row-reverse' : ''}`}>
-            <button className="px-8 py-3 rounded-full text-xs font-black bg-primary text-white shadow-lg shadow-primary/20 uppercase tracking-widest">
+            <button 
+              onClick={() => setActiveFilter('all')}
+              className={`px-8 py-3 rounded-full text-xs font-black uppercase tracking-widest transition-all ${activeFilter === 'all' ? 'bg-primary text-white shadow-lg shadow-primary/20' : 'bg-surface-container-low text-secondary hover:bg-surface-container-high'}`}
+            >
               {t('filters.all')}
             </button>
             {['health', 'system', 'rewards'].map((filter) => (
-              <button key={filter} className="px-8 py-3 rounded-full text-xs font-bold bg-surface-container-low text-secondary hover:bg-surface-container-high transition-all uppercase tracking-widest">
+              <button 
+                key={filter} 
+                onClick={() => setActiveFilter(filter)}
+                className={`px-8 py-3 rounded-full text-xs font-bold uppercase tracking-widest transition-all ${activeFilter === filter ? 'bg-primary text-white shadow-lg shadow-primary/20' : 'bg-surface-container-low text-secondary hover:bg-surface-container-high'}`}
+              >
                 {t(`filters.${filter}`)}
               </button>
             ))}
@@ -111,7 +124,10 @@ export default function NotificationsPage() {
                     <span className="text-[10px] text-white/60 font-black uppercase tracking-widest">{isRtl ? 'أمس' : 'Yesterday'}</span>
                   </div>
                   <p className="text-white/80 font-medium leading-relaxed text-lg">{t('items.elite_desc')}</p>
-                  <button className={`mt-6 inline-flex items-center gap-2 text-xs font-black text-tertiary-fixed px-6 py-3 bg-white/10 hover:bg-white/20 transition-all rounded-full uppercase tracking-widest ${isRtl ? 'flex-row-reverse' : ''}`}>
+                  <button 
+                    onClick={() => alert(isRtl ? 'تمت المطالبة بالمكافأة بنجاح!' : 'Bonus claimed successfully!')}
+                    className={`mt-6 inline-flex items-center gap-2 text-xs font-black text-tertiary-fixed px-6 py-3 bg-white/10 hover:bg-white/20 transition-all rounded-full uppercase tracking-widest ${isRtl ? 'flex-row-reverse' : ''}`}
+                  >
                     {t('items.claim')}
                     <span className={`material-symbols-outlined text-lg ${isRtl ? 'rotate-180' : ''}`}>arrow_forward</span>
                   </button>

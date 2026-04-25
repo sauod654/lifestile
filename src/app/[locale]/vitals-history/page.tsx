@@ -2,11 +2,15 @@
 
 import { useTranslations, useLocale } from 'next-intl';
 import DashboardLayout from '@/components/DashboardLayout';
+import { useState } from 'react';
 
 export default function VitalsHistoryPage() {
   const t = useTranslations('VitalsHistory');
   const locale = useLocale();
   const isRtl = locale === 'ar';
+
+  const [activeMetric, setActiveMetric] = useState('bp');
+  const [activeLog, setActiveLog] = useState(0);
 
   return (
     <DashboardLayout role="employee">
@@ -28,13 +32,22 @@ export default function VitalsHistoryPage() {
 
         {/* Metric Switcher Chips */}
         <section className={`flex gap-4 overflow-x-auto no-scrollbar mb-12 ${isRtl ? 'flex-row-reverse' : ''}`}>
-          <button className="flex-none px-10 py-4 bg-primary text-white rounded-full font-black text-xs uppercase tracking-[0.2em] shadow-xl shadow-primary/20 transition-all">
+          <button 
+            onClick={() => setActiveMetric('bp')}
+            className={`flex-none px-10 py-4 rounded-full font-black text-xs uppercase tracking-[0.2em] transition-all ${activeMetric === 'bp' ? 'bg-primary text-white shadow-xl shadow-primary/20' : 'bg-surface-container-low text-secondary hover:bg-surface-container-high'}`}
+          >
             {t('metrics.bp')}
           </button>
-          <button className="flex-none px-10 py-4 bg-surface-container-low text-secondary rounded-full font-black text-xs uppercase tracking-[0.2em] hover:bg-surface-container-high transition-colors">
+          <button 
+            onClick={() => setActiveMetric('sugar')}
+            className={`flex-none px-10 py-4 rounded-full font-black text-xs uppercase tracking-[0.2em] transition-all ${activeMetric === 'sugar' ? 'bg-primary text-white shadow-xl shadow-primary/20' : 'bg-surface-container-low text-secondary hover:bg-surface-container-high'}`}
+          >
             {t('metrics.sugar')}
           </button>
-          <button className="flex-none px-10 py-4 bg-surface-container-low text-secondary rounded-full font-black text-xs uppercase tracking-[0.2em] hover:bg-surface-container-high transition-colors">
+          <button 
+            onClick={() => setActiveMetric('bmi')}
+            className={`flex-none px-10 py-4 rounded-full font-black text-xs uppercase tracking-[0.2em] transition-all ${activeMetric === 'bmi' ? 'bg-primary text-white shadow-xl shadow-primary/20' : 'bg-surface-container-low text-secondary hover:bg-surface-container-high'}`}
+          >
             {t('metrics.bmi')}
           </button>
         </section>
@@ -75,32 +88,35 @@ export default function VitalsHistoryPage() {
           <section className="lg:col-span-4 flex flex-col">
             <div className={`flex justify-between items-center mb-8 ${isRtl ? 'flex-row-reverse' : ''}`}>
               <h3 className="font-headline text-2xl font-black text-primary tracking-tighter uppercase">{t('log_title')}</h3>
-              <button className="text-[10px] font-black text-primary hover:underline uppercase tracking-widest">{t('view_all')}</button>
+              <button onClick={() => alert(isRtl ? 'سيتم تفعيل هذه الميزة قريباً' : 'This feature will be enabled soon')} className="text-[10px] font-black text-primary hover:underline uppercase tracking-widest">{t('view_all')}</button>
             </div>
             
             <div className="space-y-4 flex-1">
               {[
-                { val: '120/80', unit: 'mmHg', type: 'morning', time: 'today', active: true },
-                { val: '118/79', unit: 'mmHg', type: 'evening', time: 'yesterday', active: false },
-                { val: '122/82', unit: 'mmHg', type: 'clinical', time: 'Oct 24', active: false }
-              ].map((log, idx) => (
-                <div key={idx} className={`rounded-[2.5rem] p-6 flex items-center justify-between transition-all active:scale-[0.97] cursor-pointer group ${log.active ? 'bg-primary text-white shadow-xl shadow-primary/20' : 'bg-surface-container-low text-primary hover:bg-surface-container-high'} ${isRtl ? 'flex-row-reverse' : ''}`}>
-                  <div className={`flex items-center gap-5 ${isRtl ? 'flex-row-reverse' : ''}`}>
-                    <div className={`w-14 h-14 rounded-2xl flex items-center justify-center ${log.active ? 'bg-white/20' : 'bg-white shadow-sm'}`}>
-                      <span className="material-symbols-outlined text-2xl">
-                        {log.type === 'clinical' ? 'event_note' : log.type === 'evening' ? 'history' : 'monitor_heart'}
-                      </span>
+                { val: '120/80', unit: 'mmHg', type: 'morning', time: 'today' },
+                { val: '118/79', unit: 'mmHg', type: 'evening', time: 'yesterday' },
+                { val: '122/82', unit: 'mmHg', type: 'clinical', time: 'Oct 24' }
+              ].map((log, idx) => {
+                const isActive = activeLog === idx;
+                return (
+                  <div key={idx} onClick={() => setActiveLog(idx)} className={`rounded-[2.5rem] p-6 flex items-center justify-between transition-all active:scale-[0.97] cursor-pointer group ${isActive ? 'bg-primary text-white shadow-xl shadow-primary/20' : 'bg-surface-container-low text-primary hover:bg-surface-container-high'} ${isRtl ? 'flex-row-reverse' : ''}`}>
+                    <div className={`flex items-center gap-5 ${isRtl ? 'flex-row-reverse' : ''}`}>
+                      <div className={`w-14 h-14 rounded-2xl flex items-center justify-center ${isActive ? 'bg-white/20' : 'bg-white shadow-sm'}`}>
+                        <span className="material-symbols-outlined text-2xl">
+                          {log.type === 'clinical' ? 'event_note' : log.type === 'evening' ? 'history' : 'monitor_heart'}
+                        </span>
+                      </div>
+                      <div className="text-start">
+                        <p className="font-black text-xl tracking-tight leading-none mb-1">{log.val} <span className="text-[10px] opacity-60">{log.unit}</span></p>
+                        <p className={`font-bold text-[10px] uppercase tracking-widest opacity-60`}>
+                          {t(`checkups.${log.type}`)} • {log.time === 'today' || log.time === 'yesterday' ? t(log.time) : log.time}
+                        </p>
+                      </div>
                     </div>
-                    <div className="text-start">
-                      <p className="font-black text-xl tracking-tight leading-none mb-1">{log.val} <span className="text-[10px] opacity-60">{log.unit}</span></p>
-                      <p className={`font-bold text-[10px] uppercase tracking-widest opacity-60`}>
-                        {t(`checkups.${log.type}`)} • {log.time === 'today' || log.time === 'yesterday' ? t(log.time) : log.time}
-                      </p>
-                    </div>
+                    <span className={`material-symbols-outlined text-xl transition-transform ${isRtl ? 'group-hover:-translate-x-2 rotate-180' : 'group-hover:translate-x-2'}`}>chevron_right</span>
                   </div>
-                  <span className={`material-symbols-outlined text-xl transition-transform ${isRtl ? 'group-hover:-translate-x-2 rotate-180' : 'group-hover:translate-x-2'}`}>chevron_right</span>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </section>
         </div>
