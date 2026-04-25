@@ -428,7 +428,11 @@
     "practitioner_label": "الممارس",
     "specialization_label": "التخصص",
     "need_help": "تحتاج مساعدة؟",
-    "talk_support": "تحدث مع الدعم"
+    "talk_support": "تحدث مع الدعم",
+    "change_selection": "تغيير الاختيار",
+    "booking_success": "تم تأكيد الحجز بنجاح!",
+    "booking_success_desc": "سوف تتلقى رسالة تأكيد عبر البريد الإلكتروني قريباً.",
+    "back_to_dashboard": "العودة للوحة التحكم"
   },
   "Auth": {
     "login_title": "تسجيل الدخول",

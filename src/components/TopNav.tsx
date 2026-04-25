@@ -2,6 +2,7 @@
 
 import { useTranslations, useLocale } from 'next-intl';
 import { Link, usePathname, useRouter } from '@/i18n/routing';
+import { useState } from 'react';
 
 interface TopNavProps {
   role?: 'admin' | 'medical' | 'employee' | 'supplier';
@@ -15,6 +16,7 @@ export default function TopNav({ role = 'medical', userName }: TopNavProps) {
   const isRTL = locale === 'ar';
   const pathname = usePathname();
   const router = useRouter();
+  const [showNotifications, setShowNotifications] = useState(false);
 
   const handleLogout = () => {
     // Basic logout simulation
@@ -72,11 +74,43 @@ export default function TopNav({ role = 'medical', userName }: TopNavProps) {
         </div>
 
         <div className={`flex items-center gap-3 ${isRTL ? 'flex-row-reverse' : ''}`}>
-          <div className="flex items-center gap-1">
-            <button className="p-2 text-secondary hover:bg-surface-container-high rounded-full transition-colors relative">
+          <div className="flex items-center gap-1 relative">
+            <button 
+              onClick={() => setShowNotifications(!showNotifications)}
+              className="p-2 text-secondary hover:bg-surface-container-high rounded-full transition-colors relative"
+            >
               <span className="material-symbols-outlined">notifications</span>
               <span className="absolute top-2 right-2 w-2 h-2 bg-error rounded-full border-2 border-surface"></span>
             </button>
+
+            {/* Notifications Dropdown */}
+            {showNotifications && (
+              <div className={`absolute top-12 ${isRTL ? 'left-0' : 'right-0'} w-80 bg-white rounded-3xl shadow-2xl border border-outline-variant/10 p-6 z-50 animate-fade-in`}>
+                <h4 className="text-sm font-black text-primary uppercase tracking-widest mb-4 border-b border-outline-variant/5 pb-2">
+                  {isRTL ? 'التنبيهات الأخيرة' : 'Recent Notifications'}
+                </h4>
+                <div className="space-y-4">
+                  <div className="flex gap-3 items-start p-3 bg-surface-container-low rounded-xl">
+                    <div className="w-2 h-2 bg-primary rounded-full mt-1.5 shrink-0"></div>
+                    <div className="text-start">
+                      <p className="text-xs font-bold text-primary">{isRTL ? 'تم تأكيد موعدك بنجاح' : 'Appointment Confirmed'}</p>
+                      <p className="text-[10px] text-secondary">With Dr. Sarah Mansour • 2m ago</p>
+                    </div>
+                  </div>
+                  <div className="flex gap-3 items-start p-3 hover:bg-surface-container-low rounded-xl transition-colors">
+                    <div className="w-2 h-2 bg-slate-300 rounded-full mt-1.5 shrink-0"></div>
+                    <div className="text-start">
+                      <p className="text-xs font-bold text-slate-700">{isRTL ? 'تذكير: شرب الماء' : 'Hydration Reminder'}</p>
+                      <p className="text-[10px] text-secondary">Stay hydrated for peak energy • 1h ago</p>
+                    </div>
+                  </div>
+                </div>
+                <button className="w-full mt-4 py-2 text-[10px] font-black text-primary uppercase tracking-[0.2em] hover:underline">
+                  {isRTL ? 'عرض جميع التنبيهات' : 'View All Notifications'}
+                </button>
+              </div>
+            )}
+
             <button 
               onClick={handleLogout}
               title={tEmployee('logout')}

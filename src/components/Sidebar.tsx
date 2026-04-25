@@ -1,8 +1,9 @@
 'use client';
 
 import { useTranslations, useLocale } from 'next-intl';
-import { Link, usePathname } from '@/i18n/routing';
+import { Link, usePathname, useRouter } from '@/i18n/routing';
 import { useMemo } from 'react';
+import { supabase } from '@/lib/supabase';
 
 interface SidebarProps {
   role: 'admin' | 'medical' | 'employee' | 'supplier';
@@ -44,6 +45,17 @@ export default function Sidebar({ role }: SidebarProps) {
     return roles[role] || [];
   }, [role, t]);
 
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    router.push('/employee-login');
+  };
+
+  const handleGenerateReport = () => {
+    alert(isRTL ? 'جاري تحضير التقرير الطبي الشامل...' : 'Preparing comprehensive medical report...');
+  };
+
   return (
     <aside className={`h-screen w-64 fixed ${isRTL ? 'right-0' : 'left-0'} top-0 z-40 hidden lg:flex flex-col bg-surface-container-low dark:bg-slate-900 border-none`}>
       <div className="flex flex-col h-full p-6 space-y-6">
@@ -81,7 +93,10 @@ export default function Sidebar({ role }: SidebarProps) {
 
         {/* Footer Actions */}
         <div className="pt-6 border-t border-outline-variant/10 space-y-4">
-          <button className="w-full bg-primary text-on-primary py-3 px-4 rounded-xl font-bold text-xs uppercase tracking-widest shadow-lg shadow-primary/20 hover:bg-primary-container transition-all active:scale-95">
+          <button 
+            onClick={handleGenerateReport}
+            className="w-full bg-primary text-on-primary py-3 px-4 rounded-xl font-bold text-xs uppercase tracking-widest shadow-lg shadow-primary/20 hover:bg-primary-container transition-all active:scale-95"
+          >
             {t('generate_report')}
           </button>
           <div className="space-y-1">
@@ -89,7 +104,10 @@ export default function Sidebar({ role }: SidebarProps) {
               <span className="material-symbols-outlined text-sm">settings</span>
               {t('settings')}
             </Link>
-            <button className={`w-full flex items-center gap-3 px-4 py-2 text-slate-500 hover:text-error transition-colors text-xs font-medium ${isRTL ? 'flex-row-reverse' : ''}`}>
+            <button 
+              onClick={handleLogout}
+              className={`w-full flex items-center gap-3 px-4 py-2 text-slate-500 hover:text-error transition-colors text-xs font-medium ${isRTL ? 'flex-row-reverse' : ''}`}
+            >
               <span className="material-symbols-outlined text-sm">logout</span>
               {t('logout')}
             </button>

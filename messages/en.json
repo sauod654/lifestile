@@ -425,7 +425,11 @@
     "practitioner_label": "Practitioner",
     "specialization_label": "Specialization",
     "need_help": "Need Help?",
-    "talk_support": "Talk to Support"
+    "talk_support": "Talk to Support",
+    "change_selection": "Change Selection",
+    "booking_success": "Booking Confirmed Successfully!",
+    "booking_success_desc": "You will receive a confirmation email shortly.",
+    "back_to_dashboard": "Back to Dashboard"
   },
   "Auth": {
     "login_title": "Sign In",

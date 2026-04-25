@@ -263,7 +263,7 @@ export default function EmployeeDashboardPage() {
           </div>
 
           {/* Vitals Snapshot */}
-          <div className="lg:col-span-5 bg-surface-container-lowest rounded-[3rem] p-10 clinical-shadow flex flex-col">
+          <div id="vitals" className="lg:col-span-5 bg-surface-container-lowest rounded-[3rem] p-10 clinical-shadow flex flex-col">
             <h3 className="text-3xl font-black text-primary mb-2 font-headline uppercase tracking-tighter">{t('vitals_snapshot')}</h3>
             <p className="text-[10px] font-black text-outline uppercase tracking-[0.2em] mb-10">Latest Clinical Results</p>
             <div className="space-y-4 flex-1">
@@ -311,7 +311,7 @@ export default function EmployeeDashboardPage() {
               </div>
             </div>
             
-            <Link href="/medical-dashboard" className="w-full mt-10 py-5 bg-primary/5 text-primary font-black rounded-3xl flex items-center justify-center gap-3 hover:bg-primary hover:text-white transition-all group uppercase tracking-widest text-xs">
+            <Link href="/book-appointment" className="w-full mt-10 py-5 bg-primary/5 text-primary font-black rounded-3xl flex items-center justify-center gap-3 hover:bg-primary hover:text-white transition-all group uppercase tracking-widest text-xs">
               <span>{t('view_full_history')}</span>
               <span className={`material-symbols-outlined text-xl transition-transform ${isRtl ? 'group-hover:-translate-x-2' : 'group-hover:translate-x-2'}`}>
                 {isRtl ? 'arrow_back' : 'arrow_forward'}
@@ -326,10 +326,10 @@ export default function EmployeeDashboardPage() {
             <h3 className="text-4xl font-black text-primary mb-4 font-headline uppercase tracking-tighter leading-none">{t('book_consultation')}</h3>
             <p className="text-secondary text-xl font-medium leading-relaxed opacity-80">Discuss your recent trends and personalized health plan with your assigned medical team.</p>
           </div>
-          <button className="primary-gradient-glow text-white font-black py-6 px-16 rounded-[2rem] text-xl hover:scale-105 active:scale-[0.98] transition-all flex items-center gap-4 relative z-10 uppercase tracking-tighter">
+          <Link href="/book-appointment" className="primary-gradient-glow text-white font-black py-6 px-16 rounded-[2rem] text-xl hover:scale-105 active:scale-[0.98] transition-all flex items-center gap-4 relative z-10 uppercase tracking-tighter">
             <span className="material-symbols-outlined text-3xl">event_available</span>
             <span>{t('schedule_now')}</span>
-          </button>
+          </Link>
           
           <div className="absolute -left-20 -bottom-20 w-64 h-64 bg-primary/5 rounded-full blur-3xl"></div>
           <div className="absolute right-20 top-0 w-32 h-32 bg-primary/10 rounded-full blur-2xl"></div>
