@@ -105,7 +105,10 @@ export default function TopNav({ role = 'medical', userName }: TopNavProps) {
                     </div>
                   </div>
                 </div>
-                <button className="w-full mt-4 py-2 text-[10px] font-black text-primary uppercase tracking-[0.2em] hover:underline">
+                <button 
+                  onClick={() => alert(isRTL ? 'سيتم تحويلك لصفحة التنبيهات الكاملة قريباً' : 'You will be redirected to the full notifications page soon')}
+                  className="w-full mt-4 py-2 text-[10px] font-black text-primary uppercase tracking-[0.2em] hover:underline"
+                >
                   {isRTL ? 'عرض جميع التنبيهات' : 'View All Notifications'}
                 </button>
               </div>

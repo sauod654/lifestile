@@ -14,6 +14,7 @@ export default function EmployeeDashboardPage() {
   const [waterAmount, setWaterAmount] = useState(0);
   const [loading, setLoading] = useState(true);
   const [userName, setUserName] = useState<string>('');
+  const [weekView, setWeekView] = useState(true);
 
   useEffect(() => {
     const initDashboard = async () => {
@@ -91,9 +92,9 @@ export default function EmployeeDashboardPage() {
       <div className="space-y-12 pb-12">
         {/* Welcome Header */}
         <header className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
-          <div className="animate-fade-in">
+          <div className="animate-fade-in text-start">
             <h1 className="text-5xl font-black text-primary tracking-tighter mb-2 font-headline uppercase leading-none">
-              {t('greeting')} {userName}
+              {t('greeting')} {userName || (isRtl ? 'أحمد' : 'Ahmed')}
             </h1>
             <p className="text-xl text-secondary max-w-2xl leading-relaxed font-medium">{t('greeting_subtitle')}</p>
           </div>
@@ -108,13 +109,13 @@ export default function EmployeeDashboardPage() {
           {/* Main Activity / Health Rings */}
           <div className="lg:col-span-8 bg-surface-container-lowest rounded-[3.5rem] p-12 clinical-shadow flex flex-col justify-between min-h-[450px] relative overflow-hidden group">
             <div className="flex justify-between items-start relative z-10">
-              <div>
+              <div className="text-start">
                 <h2 className="text-4xl font-black text-primary tracking-tighter mb-2 font-headline uppercase">{t('exercise_rings')}</h2>
-                <p className="text-secondary font-bold text-lg">Daily activity and movement goals</p>
+                <p className="text-secondary font-bold text-lg">{isRtl ? 'أهداف النشاط والحركة اليومية' : 'Daily activity and movement goals'}</p>
               </div>
               <div className="text-right">
                 <p className="text-6xl font-black text-tertiary tracking-tighter leading-none">85%</p>
-                <p className="text-[10px] font-black text-outline uppercase tracking-[0.2em] mt-1">Global Goal</p>
+                <p className="text-[10px] font-black text-outline uppercase tracking-[0.2em] mt-1">{t('global_goal')}</p>
               </div>
             </div>
 
@@ -138,8 +139,8 @@ export default function EmployeeDashboardPage() {
 
               <div className="flex-1 space-y-8 w-full">
                 <div className="space-y-3">
-                  <div className="flex justify-between text-sm font-black uppercase tracking-widest">
-                    <span className="text-primary">Movement</span>
+                  <div className={`flex justify-between text-sm font-black uppercase tracking-widest ${isRtl ? 'flex-row-reverse' : ''}`}>
+                    <span className="text-primary">{t('movement')}</span>
                     <span className="text-on-surface/60">450 / 600 <span className="text-[10px]">kcal</span></span>
                   </div>
                   <div className="w-full bg-primary/5 h-3 rounded-full overflow-hidden">
@@ -147,8 +148,8 @@ export default function EmployeeDashboardPage() {
                   </div>
                 </div>
                 <div className="space-y-3">
-                  <div className="flex justify-between text-sm font-black uppercase tracking-widest">
-                    <span className="text-tertiary">Exercise</span>
+                  <div className={`flex justify-between text-sm font-black uppercase tracking-widest ${isRtl ? 'flex-row-reverse' : ''}`}>
+                    <span className="text-tertiary">{t('exercise')}</span>
                     <span className="text-on-surface/60">22 / 30 <span className="text-[10px]">min</span></span>
                   </div>
                   <div className="w-full bg-tertiary/5 h-3 rounded-full overflow-hidden">
@@ -156,16 +157,16 @@ export default function EmployeeDashboardPage() {
                   </div>
                 </div>
                 <div className="space-y-3">
-                  <div className="flex justify-between text-sm font-black uppercase tracking-widest">
-                    <span className="text-secondary">Stand</span>
+                  <div className={`flex justify-between text-sm font-black uppercase tracking-widest ${isRtl ? 'flex-row-reverse' : ''}`}>
+                    <span className="text-secondary">{t('stand')}</span>
                     <span className="text-on-surface/60">6 / 12 <span className="text-[10px]">hr</span></span>
                   </div>
                   <div className="w-full bg-secondary/5 h-3 rounded-full overflow-hidden">
                     <div className="bg-secondary h-full w-1/2 rounded-full"></div>
                   </div>
                 </div>
-                <p className="text-sm text-secondary font-bold pt-6 border-t border-surface-container-high italic opacity-80">
-                  "Only 8 {t('min_remaining')}"
+                <p className={`text-sm text-secondary font-bold pt-6 border-t border-surface-container-high italic opacity-80 ${isRtl ? 'text-right' : 'text-left'}`}>
+                  "{isRtl ? 'فقط 8' : 'Only 8'} {t('min_away')}"
                 </p>
               </div>
             </div>
@@ -177,8 +178,8 @@ export default function EmployeeDashboardPage() {
           {/* Water Tracker - Interactive Design */}
           <div className="lg:col-span-4 signature-gradient text-white rounded-[3.5rem] p-12 flex flex-col justify-between clinical-shadow relative overflow-hidden group">
             <div className="relative z-10">
-              <h2 className="text-3xl font-black mb-1 font-headline uppercase tracking-tighter">{t('hydration_tracker')}</h2>
-              <p className="text-xs font-bold opacity-70 uppercase tracking-widest mb-10">{t('daily_target')}: 3.0 Liters</p>
+              <h2 className="text-3xl font-black mb-1 font-headline uppercase tracking-tighter text-start">{t('hydration_tracker')}</h2>
+              <p className={`text-xs font-bold opacity-70 uppercase tracking-widest mb-10 ${isRtl ? 'text-right' : 'text-left'}`}>{t('daily_target')}: 3.0 {t('litters')}</p>
               
               <div className="relative w-full aspect-[2/3] max-w-[160px] mx-auto mb-10">
                 {/* Bottle Shape */}
@@ -218,7 +219,7 @@ export default function EmployeeDashboardPage() {
                   {loading ? 'sync' : 'add'}
                 </span>
               </div>
-              <span className="text-lg tracking-tight">{loading ? 'UPDATING...' : 'ADD 250ML'}</span>
+              <span className="text-lg tracking-tight">{loading ? (isRtl ? 'جاري التحديث...' : 'UPDATING...') : t('add_ml')}</span>
             </button>
 
             {/* Background Texture */}
@@ -231,8 +232,13 @@ export default function EmployeeDashboardPage() {
           {/* Nutrition Intake */}
           <div className="lg:col-span-7 bg-surface-container-low rounded-[3rem] p-10 clinical-shadow relative overflow-hidden">
             <div className="flex justify-between items-center mb-12 relative z-10">
-              <h3 className="text-3xl font-black text-primary font-headline uppercase tracking-tighter">{t('nutrition_intake')}</h3>
-              <span className="text-[10px] font-black text-secondary bg-surface-container-high px-6 py-2.5 rounded-full uppercase tracking-[0.2em] shadow-sm">Week View</span>
+              <h3 className="text-3xl font-black text-primary font-headline uppercase tracking-tighter text-start">{t('nutrition_intake')}</h3>
+              <button 
+                onClick={() => setWeekView(!weekView)}
+                className={`text-[10px] font-black ${weekView ? 'text-white bg-primary' : 'text-secondary bg-surface-container-high'} px-6 py-2.5 rounded-full uppercase tracking-[0.2em] shadow-sm transition-all hover:scale-105 active:scale-95`}
+              >
+                {t('week_view')}
+              </button>
             </div>
             
             <div className="grid grid-cols-7 gap-4 h-56 items-end px-4 relative z-10">
@@ -241,22 +247,24 @@ export default function EmployeeDashboardPage() {
                   <div className="w-full bg-primary/5 rounded-2xl relative overflow-hidden transition-all group-hover:bg-primary/10 cursor-pointer" style={{height: `${h}%`}}>
                     <div className="absolute bottom-0 left-0 right-0 signature-gradient opacity-40 h-1/3"></div>
                   </div>
-                  <span className="text-[10px] font-black text-outline uppercase tracking-widest">Day {i+1}</span>
+                  <span className="text-[10px] font-black text-outline uppercase tracking-widest">
+                    {isRtl ? ['أحد', 'اثنين', 'ثلاثاء', 'أربعاء', 'خميس', 'جمعة', 'سبت'][i] : ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][i]}
+                  </span>
                 </div>
               ))}
             </div>
 
-            <div className="mt-12 flex gap-8 relative z-10">
-              <div className="flex-1 bg-surface-container-lowest p-6 rounded-[2rem] shadow-sm group hover:scale-105 transition-all">
-                <p className="text-[10px] font-black text-outline uppercase tracking-widest mb-2">Protein</p>
+            <div className={`mt-12 flex gap-8 relative z-10 ${isRtl ? 'flex-row-reverse' : ''}`}>
+              <div className="flex-1 bg-surface-container-lowest p-6 rounded-[2rem] shadow-sm group hover:scale-105 transition-all text-start">
+                <p className="text-[10px] font-black text-outline uppercase tracking-widest mb-2">{t('protein')}</p>
                 <p className="text-3xl font-black text-primary tracking-tighter">124<span className="text-sm ml-1 font-bold opacity-40 uppercase">g</span></p>
               </div>
-              <div className="flex-1 bg-surface-container-lowest p-6 rounded-[2rem] shadow-sm group hover:scale-105 transition-all">
-                <p className="text-[10px] font-black text-outline uppercase tracking-widest mb-2">Carbs</p>
+              <div className="flex-1 bg-surface-container-lowest p-6 rounded-[2rem] shadow-sm group hover:scale-105 transition-all text-start">
+                <p className="text-[10px] font-black text-outline uppercase tracking-widest mb-2">{t('carbs')}</p>
                 <p className="text-3xl font-black text-tertiary tracking-tighter">210<span className="text-sm ml-1 font-bold opacity-40 uppercase">g</span></p>
               </div>
-              <div className="flex-1 bg-surface-container-lowest p-6 rounded-[2rem] shadow-sm group hover:scale-105 transition-all">
-                <p className="text-[10px] font-black text-outline uppercase tracking-widest mb-2">Fat</p>
+              <div className="flex-1 bg-surface-container-lowest p-6 rounded-[2rem] shadow-sm group hover:scale-105 transition-all text-start">
+                <p className="text-[10px] font-black text-outline uppercase tracking-widest mb-2">{t('fat')}</p>
                 <p className="text-3xl font-black text-secondary tracking-tighter">58<span className="text-sm ml-1 font-bold opacity-40 uppercase">g</span></p>
               </div>
             </div>
@@ -264,49 +272,49 @@ export default function EmployeeDashboardPage() {
 
           {/* Vitals Snapshot */}
           <div id="vitals" className="lg:col-span-5 bg-surface-container-lowest rounded-[3rem] p-10 clinical-shadow flex flex-col">
-            <h3 className="text-3xl font-black text-primary mb-2 font-headline uppercase tracking-tighter">{t('vitals_snapshot')}</h3>
-            <p className="text-[10px] font-black text-outline uppercase tracking-[0.2em] mb-10">Latest Clinical Results</p>
+            <h3 className="text-3xl font-black text-primary mb-2 font-headline uppercase tracking-tighter text-start">{t('vitals_snapshot')}</h3>
+            <p className={`text-[10px] font-black text-outline uppercase tracking-[0.2em] mb-10 ${isRtl ? 'text-right' : 'text-left'}`}>{t('latest_results')}</p>
             <div className="space-y-4 flex-1">
               <div className="flex items-center justify-between p-6 bg-surface-container-low rounded-[2rem] transition-all hover:bg-surface-container-high group cursor-pointer">
-                <div className="flex items-center gap-6">
+                <div className={`flex items-center gap-6 ${isRtl ? 'flex-row-reverse' : ''}`}>
                   <div className="w-16 h-16 rounded-3xl bg-primary/10 text-primary flex items-center justify-center group-hover:signature-gradient group-hover:text-white transition-all">
                     <span className="material-symbols-outlined text-3xl">favorite</span>
                   </div>
-                  <div>
+                  <div className="text-start">
                     <p className="text-[10px] font-black text-outline uppercase tracking-widest mb-1">{t('bp')}</p>
                     <p className="text-2xl font-black text-primary tracking-tight">118/76 <span className="text-sm font-bold opacity-40 uppercase">mmHg</span></p>
                   </div>
                 </div>
                 <div className="text-right">
-                  <span className="text-[10px] font-black text-emerald-600 bg-emerald-50 px-4 py-2 rounded-full uppercase tracking-widest">Optimal</span>
+                  <span className="text-[10px] font-black text-emerald-600 bg-emerald-50 px-4 py-2 rounded-full uppercase tracking-widest">{isRtl ? 'مثالي' : 'Optimal'}</span>
                 </div>
               </div>
               <div className="flex items-center justify-between p-6 bg-surface-container-low rounded-[2rem] transition-all hover:bg-surface-container-high group cursor-pointer">
-                <div className="flex items-center gap-6">
+                <div className={`flex items-center gap-6 ${isRtl ? 'flex-row-reverse' : ''}`}>
                   <div className="w-16 h-16 rounded-3xl bg-tertiary/10 text-tertiary flex items-center justify-center group-hover:bg-tertiary group-hover:text-white transition-all">
                     <span className="material-symbols-outlined text-3xl">glucose</span>
                   </div>
-                  <div>
+                  <div className="text-start">
                     <p className="text-[10px] font-black text-outline uppercase tracking-widest mb-1">{t('glucose')}</p>
                     <p className="text-2xl font-black text-primary tracking-tight">94 <span className="text-sm font-bold opacity-40 uppercase">mg/dL</span></p>
                   </div>
                 </div>
                 <div className="text-right">
-                  <span className="text-[10px] font-black text-amber-600 bg-amber-50 px-4 py-2 rounded-full uppercase tracking-widest">Stable</span>
+                  <span className="text-[10px] font-black text-amber-600 bg-amber-50 px-4 py-2 rounded-full uppercase tracking-widest">{isRtl ? 'مستقر' : 'Stable'}</span>
                 </div>
               </div>
               <div className="flex items-center justify-between p-6 bg-surface-container-low rounded-[2rem] transition-all hover:bg-surface-container-high group cursor-pointer">
-                <div className="flex items-center gap-6">
+                <div className={`flex items-center gap-6 ${isRtl ? 'flex-row-reverse' : ''}`}>
                   <div className="w-16 h-16 rounded-3xl bg-secondary/10 text-secondary flex items-center justify-center group-hover:bg-secondary group-hover:text-white transition-all">
                     <span className="material-symbols-outlined text-3xl">monitor_weight</span>
                   </div>
-                  <div>
+                  <div className="text-start">
                     <p className="text-[10px] font-black text-outline uppercase tracking-widest mb-1">{t('bmi')}</p>
                     <p className="text-2xl font-black text-primary tracking-tight">24.2 <span className="text-sm font-bold opacity-40 uppercase">Points</span></p>
                   </div>
                 </div>
                 <div className="text-right">
-                  <span className="text-[10px] font-black text-emerald-600 bg-emerald-50 px-4 py-2 rounded-full uppercase tracking-widest">Normal</span>
+                  <span className="text-[10px] font-black text-emerald-600 bg-emerald-50 px-4 py-2 rounded-full uppercase tracking-widest">{isRtl ? 'طبيعي' : 'Normal'}</span>
                 </div>
               </div>
             </div>
@@ -324,7 +332,7 @@ export default function EmployeeDashboardPage() {
         <section className="bg-primary/5 rounded-[4rem] p-16 flex flex-col md:flex-row items-center justify-between gap-12 relative overflow-hidden">
           <div className="max-w-xl relative z-10 text-center md:text-start">
             <h3 className="text-4xl font-black text-primary mb-4 font-headline uppercase tracking-tighter leading-none">{t('book_consultation')}</h3>
-            <p className="text-secondary text-xl font-medium leading-relaxed opacity-80">Discuss your recent trends and personalized health plan with your assigned medical team.</p>
+            <p className="text-secondary text-xl font-medium leading-relaxed opacity-80">{t('consultation_desc')}</p>
           </div>
           <Link href="/book-appointment" className="primary-gradient-glow text-white font-black py-6 px-16 rounded-[2rem] text-xl hover:scale-105 active:scale-[0.98] transition-all flex items-center gap-4 relative z-10 uppercase tracking-tighter">
             <span className="material-symbols-outlined text-3xl">event_available</span>

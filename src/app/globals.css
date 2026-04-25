@@ -61,6 +61,20 @@
   --font-label: "Inter", "Noto Sans Arabic", sans-serif;
 }
 
+.dark {
+  --color-surface: #0f172a;
+  --color-surface-container-low: #1e293b;
+  --color-surface-container-lowest: #0f172a;
+  --color-surface-container-high: #334155;
+  --color-on-surface: #f8fafc;
+  --color-background: #0f172a;
+  --color-on-background: #f8fafc;
+  --color-primary: #38bdf8;
+  --color-secondary: #94a3b8;
+  --color-outline-variant: #334155;
+  --color-surface-variant: #1e293b;
+}
+
 @layer utilities {
   .material-symbols-outlined {
     font-family: 'Material Symbols Outlined' !important;

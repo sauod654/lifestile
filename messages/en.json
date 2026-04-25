@@ -7,7 +7,10 @@
     "privacy_policy": "Privacy Policy",
     "terms": "Terms of Service",
     "security": "Security Standards",
-    "copyright": "© 2024 Editorial Trust Systems. All rights reserved."
+    "copyright": "© 2024 Editorial Trust Systems. All rights reserved.",
+    "manage_settings": "Manage your personal information and preferences.",
+    "dark_mode": "Dark Mode",
+    "dark_mode_desc": "Switch between light and dark themes"
   },
   "Index": {
     "title": "Lifestile Unified System",
@@ -357,7 +360,21 @@
     "book_consultation": "Book a Consultation",
     "schedule_now": "Schedule Now",
     "upcoming": "Upcoming",
-    "preferred": "Preferred"
+    "preferred": "Preferred",
+    "movement": "Movement",
+    "exercise": "Exercise",
+    "stand": "Stand",
+    "global_goal": "Global Goal",
+    "min_away": "min away from daily goal",
+    "litters": "Litters",
+    "add_ml": "Add 250ml",
+    "latest_results": "Latest Clinical Results",
+    "consultation_desc": "Discuss your recent trends and personalized health plan with your assigned medical team.",
+    "week_view": "Week View",
+    "fat": "Fat",
+    "carbs": "Carbs",
+    "protein": "Protein",
+    "available": "Available"
   },
   "ClinicalWorkspace": {
     "title": "Clinical Workspace",
@@ -429,7 +446,9 @@
     "change_selection": "Change Selection",
     "booking_success": "Booking Confirmed Successfully!",
     "booking_success_desc": "You will receive a confirmation email shortly.",
-    "back_to_dashboard": "Back to Dashboard"
+    "back_to_dashboard": "Back to Dashboard",
+    "schedule_desc": "Schedule your next clinical evaluation or consultation session.",
+    "concierge_help": "Our concierge team is available 24/7 for booking assistance."
   },
   "Auth": {
     "login_title": "Sign In",
@@ -477,5 +496,15 @@
     "perm_staffing": "Staff Provisioning",
     "perm_audit": "Audit Log Export",
     "perm_settings": "Global System Settings"
+  },
+  "Doctors": {
+    "sarah_mansour": "Dr. Sarah Mansour",
+    "sarah_role": "Chief Nutritionist",
+    "james_khalid": "Dr. James Khalid",
+    "james_role": "General Practitioner",
+    "amira_yusuf": "Dr. Amira Yusuf",
+    "amira_role": "Dietetic Specialist",
+    "robert_chen": "Dr. Robert Chen",
+    "robert_role": "Health Coach"
   }
 }

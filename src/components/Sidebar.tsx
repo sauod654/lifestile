@@ -53,7 +53,8 @@ export default function Sidebar({ role }: SidebarProps) {
   };
 
   const handleGenerateReport = () => {
-    alert(isRTL ? 'جاري تحضير التقرير الطبي الشامل...' : 'Preparing comprehensive medical report...');
+    const msg = isRTL ? 'جاري تحضير التقرير الطبي الشامل... سيتم إرساله إلى بريدك الإلكتروني.' : 'Preparing comprehensive medical report... It will be sent to your email.';
+    alert(msg);
   };
 
   return (
@@ -73,7 +74,22 @@ export default function Sidebar({ role }: SidebarProps) {
         {/* Navigation */}
         <nav className="flex-1 space-y-2">
           {menuItems.map((item) => {
+            const isHash = item.href.includes('#');
             const isActive = pathname === item.href;
+            
+            if (isHash) {
+              return (
+                <a
+                  key={item.id}
+                  href={item.href}
+                  className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 group text-slate-600 dark:text-slate-400 hover:bg-surface-container-high hover:translate-x-1 ${isRTL ? 'flex-row-reverse' : ''}`}
+                >
+                  <span className={`material-symbols-outlined`}>{item.icon}</span>
+                  <span className="font-manrope text-sm">{item.label}</span>
+                </a>
+              );
+            }
+
             return (
               <Link
                 key={item.id}

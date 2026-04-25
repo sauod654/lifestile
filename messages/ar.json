@@ -7,7 +7,10 @@
     "privacy_policy": "سياسة الخصوصية",
     "terms": "شروط الخدمة",
     "security": "معايير الأمان",
-    "copyright": "© 2024 أنظمة Editorial Trust. جميع الحقوق محفوظة."
+    "copyright": "© 2024 أنظمة Editorial Trust. جميع الحقوق محفوظة.",
+    "manage_settings": "إدارة معلوماتك الشخصية وتفضيلاتك.",
+    "dark_mode": "الوضع الليلي",
+    "dark_mode_desc": "تغيير مظهر النظام للوضع الليلي"
   },
   "Index": {
     "title": "نظام لايف ستايل المتكامل",
@@ -360,7 +363,21 @@
     "book_consultation": "حجز استشارة طبية",
     "schedule_now": "جدولة الآن",
     "upcoming": "قادم",
-    "preferred": "المفضل"
+    "preferred": "المفضل",
+    "movement": "الحركة",
+    "exercise": "التمارين",
+    "stand": "الوقوف",
+    "global_goal": "الهدف العالمي",
+    "min_away": "دقيقة تفصلك عن هدفك اليومي",
+    "litters": "لتر",
+    "add_ml": "إضافة 250 مل",
+    "latest_results": "آخر النتائج السريرية",
+    "consultation_desc": "ناقش اتجاهاتك الأخيرة وخطة الصحة الشخصية مع فريقك الطبي المعين.",
+    "week_view": "عرض الأسبوع",
+    "fat": "دهون",
+    "carbs": "كربوهيدرات",
+    "protein": "بروتين",
+    "available": "متاح"
   },
   "ClinicalWorkspace": {
     "title": "واجهة العمل الإكلينيكي",
@@ -432,7 +449,9 @@
     "change_selection": "تغيير الاختيار",
     "booking_success": "تم تأكيد الحجز بنجاح!",
     "booking_success_desc": "سوف تتلقى رسالة تأكيد عبر البريد الإلكتروني قريباً.",
-    "back_to_dashboard": "العودة للوحة التحكم"
+    "back_to_dashboard": "العودة للوحة التحكم",
+    "schedule_desc": "قم بجدولة تقييمك السريري القادم أو جلسة الاستشارة.",
+    "concierge_help": "فريق الكونسيرج لدينا متاح 24/7 للمساعدة في الحجز."
   },
   "Auth": {
     "login_title": "تسجيل الدخول",
@@ -480,5 +499,15 @@
     "perm_staffing": "تزويد الموظفين",
     "perm_audit": "تصدير سجل التدقيق",
     "perm_settings": "إعدادات النظام العالمية"
+  },
+  "Doctors": {
+    "sarah_mansour": "د. سارة منصور",
+    "sarah_role": "خبيرة تغذية رئيسية",
+    "james_khalid": "د. جيمس خالد",
+    "james_role": "ممارس عام",
+    "amira_yusuf": "د. أميرة يوسف",
+    "amira_role": "أخصائية تغذية",
+    "robert_chen": "د. روبرت تشن",
+    "robert_role": "مدرب صحي"
   }
 }
